@@ -1,0 +1,15 @@
+<ng-container *ngIf="finacimientoInit">
+  <app-financiamiento-datos-generales [datos]="finacimientoInit.datosGenerales"></app-financiamiento-datos-generales>
+  <app-financiamiento-create
+    *ngIf="_financiamientoEdicionService.state == ''"
+    [financiamiento]="finacimientoInit.datosFormulario"
+    [listas]="finacimientoInit.listas"
+    [lineaCredito]="finacimientoInit.datosGenerales.lineaCredito"
+  ></app-financiamiento-create>
+  <app-financiamiento-edit
+    *ngIf="_financiamientoEdicionService.state != ''"
+    [financiamiento]="finacimientoInit.datosFormulario"
+    [listas]="finacimientoInit.listas"
+    [lineaCredito]="finacimientoInit.datosGenerales.lineaCredito"
+  ></app-financiamiento-edit>
+</ng-container>

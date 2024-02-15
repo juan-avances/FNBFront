@@ -1,0 +1,35 @@
+<div class="responsiveG res">
+  <!-- Ícono de cierre -->
+  <mat-icon class="close-icon" (click)="closeDialog()">close</mat-icon>
+  <h2 mat-dialog-title>
+    Adjuntar Archivo <br />N° Pedido:<strong>{{ data.nroPedido }}</strong>
+  </h2>
+  <mat-dialog-content class="mat-typography">
+    <!-- Sustento de Venta -->
+    <documento-seccion 
+      [tipoDocumento]="'Sustento de Venta'" 
+      [documentos]="documentosVenta"
+      [todosDocumentosAgregados]="todosDocumentosVentaAgregados"
+      [financiamientoId]="financiamientoId"
+      [nroPedido]="data.nroPedido">
+    </documento-seccion>
+
+    <!-- Sustento de Entrega -->
+    <documento-seccion 
+      [tipoDocumento]="'Sustento de Entrega'" 
+      [documentos]="documentosEntrega"
+      [todosDocumentosAgregados]="todosDocumentosEntregaAgregados"
+      [financiamientoId]="financiamientoId"
+      [nroPedido]="data.nroPedido">
+    </documento-seccion>
+
+    <!-- Sustento de Anulación -->
+    <documento-seccion 
+      [tipoDocumento]="'Sustento de Anulación'" 
+      [documentos]="documentosAnulacion"
+      [todosDocumentosAgregados]="todosDocumentosAnulacionAgregados"
+      [financiamientoId]="financiamientoId"
+      [nroPedido]="data.nroPedido">
+    </documento-seccion>
+  </mat-dialog-content>
+</div>

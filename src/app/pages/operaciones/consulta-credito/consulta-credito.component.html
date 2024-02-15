@@ -1,0 +1,92 @@
+
+<mat-card class="calidda-card">
+    <mat-card-header>
+        <mat-card-title>
+            <h2>Consulta Crédito</h2>
+            <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+        <section class="form_material">
+            <form class="form_inputs" #f="ngForm" (ngSubmit)="onSearch(f)">
+                <div>
+                    
+                    <mat-form-field>
+                        <mat-label>Tipo de documento</mat-label>
+                        <mat-select (selectionChange)="changeTipoDoc($event)" name="tipoDocumento" ngModel placeholder="Tipo Documento" required #searchImput="ngModel">
+                            <mat-option *ngFor="let tipoDocumento of optionTiposDocumento" value="{{ tipoDocumento.value }}">{{ tipoDocumento.label }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="searchImput.hasError('required')">El tipo de documento es obligatorio</mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field>
+                        <mat-label>Buscar por Documento</mat-label>
+                        <input type="text" name="dnicuenta" matInput ngModel placeholder="Ingrese Documento" required #searchImput="ngModel" maxlength="{{ lenghtValidacion }}"  pattern="{{ tipoValidacion }}" ng-pattern-restrict [disabled]="!(tipoDocumento !== undefined)"
+                        />
+                        <mat-error *ngIf="searchImput.hasError('required')">Documento obligatorio</mat-error>
+                        <mat-error *ngIf="!searchImput.hasError('required')">Ingrese Documento Correcto</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="center_mov">
+                    <button type="submit" mat-raised-button color="btnCeleste_l" [disabled]="f.invalid">
+            <mat-icon>search</mat-icon>Buscar
+          </button>
+                </div>
+            </form>
+            <div *ngIf="visibctive">
+                <div class="section_hidden" *ngIf="ctasContrato">
+                    <section class="form_material" id="linea">
+                        <div class="form_inputs">
+                            <div class="d-flex align-items-center">
+                                <div class="horizontal">
+                                    <h2>
+                                        <!-- <strong>Línea de Crédito S/. {{ lineaCredito }}</strong> -->
+                                        <strong>Disponible S/. {{ lineaCredito }}</strong>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" (click)="verConsumo(f)" mat-raised-button color="btnCeleste_l" [disabled]="f.invalid">
+                <i class="fa fa-shopping-cart"></i>
+              </button>
+                                <button type="submit" mat-raised-button matTooltip="Refrescar la línea de Crédito" aria-label="Refrescar la línea de Crédito" color="btnCeleste_l" disabled>
+                <mat-icon>loop</mat-icon>
+              </button>
+                            </div>
+                            <div></div>
+                        </div>
+                    </section>
+                    <div class="content_material" id="sectionMaterial">
+                        <p-table [value]="ctasContrato" class="table-striped">
+                            <ng-template pTemplate="header">
+                                <tr class="small table_th">
+                                    <th>Nombre(s) y Apellidos</th>
+                                    <th width="120">Cuenta Contrato</th>
+                                    <th>Dirección</th>
+                                    <th width="60">Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-cuenta>
+                                <tr class="small table_td">
+                                    <td>{{ dataCliente.nombre }}</td>
+                                    <td>{{ cuenta.cuentaCorriente }}</td>
+                                    <td>{{ cuenta.direccion }}</td>
+                                    <td>
+                                        <div *ngIf="dataCliente.tieneLineaCredito && this._global.validarPermiso('AGRFIN')" class="go_financia">
+                                            <a (click)="goToFinanciamiento(cuenta.id, dataCliente.idConsulta)" matTooltip="Registrar Financiamiento" aria-label="Button that displays a tooltip when focused or hovered over">
+                                                <div class="fa_icon fa_gris_b"><i class="fas fa-clipboard-list"></i></div>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </mat-card-content>
+</mat-card>

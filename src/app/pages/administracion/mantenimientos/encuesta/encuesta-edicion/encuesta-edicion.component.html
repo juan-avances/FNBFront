@@ -1,0 +1,184 @@
+<mat-card class="calidda-card">
+    <mat-card-header>
+        <mat-card-title>
+            <h2>Encuesta</h2>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+        <form [formGroup]="forma" *ngIf="forma">
+            <section class="form_material">
+                <div class="form_inputs top_align">
+                    <div>
+                        <mat-form-field>
+                            <input type="text" matInput placeholder="Código" codigoEncuesta formControlName="codigo" maxlength="15" />
+                            <mat-error>
+                                <p *ngIf="forma.get('codigo').hasError('minlength')">
+                                    Debe contener entre 1 y 15 caracteres.
+                                </p>
+                                <p *ngIf="forma.get('codigo').invalid">
+                                    Caracteres permitidos letras, números o ambos.
+                                </p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input type="text" matInput placeholder="Nombre" letterNumberSign formControlName="nombre" maxlength="100" />
+                            <mat-error>
+                                <p *ngIf="forma.get('nombre').hasError('minlength')">
+                                    Debe contener entre 1 y 100 caracteres.
+                                </p>
+                                <p *ngIf="forma.get('nombre').invalid">
+                                    Caracteres permitidos letras, números o ambos.
+                                </p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div class="form_inputs top_align">
+                    <div>
+                        <mat-form-field>
+                            <input type="textarea" matInput placeholder="Descripción" letterNumberSign formControlName="descripcion" maxlength="200" />
+                            <mat-error>
+                                <p *ngIf="forma.get('descripcion').hasError('minlength')">
+                                    Debe contener entre 1 y 200 caracteres.
+                                </p>
+                                <p *ngIf="forma.get('descripcion').invalid">
+                                    Caracteres permitidos letras, números o ambos.
+                                </p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="primary" (click)="addNewPregunta()">
+                            <em class="material-icons-outlined">add_circle_outline</em>
+                        </button>
+                    </div>
+                </div>
+                <mat-accordion formArrayName="preguntas">
+                    <mat-expansion-panel *ngFor="let pregunta of forma.get('preguntas')['controls']; let i = index" [formGroupName]="i">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> Pregunta {{ i + 1 }} </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="form_inputs top_align">
+                            <div>
+                                <mat-form-field>
+                                    <input type="text" maxlength="15" matInput codigoPregunta placeholder="Código" [formControl]="pregunta.get('codigo')" />
+                                    <mat-error>
+                                        <p *ngIf="pregunta.get('codigo').hasError('minlength')">
+                                            Debe contener entre 1 y 15 caracteres.
+                                        </p>
+                                        <p *ngIf="pregunta.get('codigo').invalid">
+                                            Caracteres permitidos letras, números o ambos.
+                                        </p>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <input type="text" maxlength="100" matInput placeholder="Nombre" nombrePregunta [formControl]="pregunta.get('nombre')" />
+                                    <mat-error>
+                                        <p *ngIf="pregunta.get('nombre').hasError('minlength')">
+                                            Debe contener entre 1 y 100 caracteres.
+                                        </p>
+                                        <p *ngIf="pregunta.get('nombre').invalid">
+                                            Caracteres permitidos letras, números o ambos.
+                                        </p>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="form_inputs top_align">
+                            <div>
+                                <mat-form-field>
+                                    <input type="number" matInput placeholder="Orden" min="1" [formControl]="pregunta.get('orden')" />
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <mat-form-field>
+                                    <mat-select [formControl]="pregunta.get('estado')" placeholder="Estado" (selectionChange)="
+                      actualizarEstadoAlternativa($event.value, pregunta.get('alternativas')['controls'])
+                    ">
+                                        <mat-option *ngFor="let item of encuestaActual.estados" [value]="item.value">
+                                            {{ item.label }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button mat-raised-button color="primary" (click)="addNewAltertiva(forma.get('preguntas')['controls'][i].get('alternativas')['controls'])">
+                                    <em class="material-icons-outlined">add_circle_outline</em>
+                                </button>
+                            </div>
+                        </div>
+                        <mat-accordion formArrayName="alternativas">
+                            <mat-expansion-panel *ngFor="let alternativa of pregunta.get('alternativas')['controls']; let j = index" [formGroupName]="j">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title> Alternativa {{ j + 1 }} </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="form_inputs top_align">
+                                    <div>
+                                        <mat-form-field>
+                                            <input type="text" maxlength="15" matInput placeholder="Código" codigoAlternativa [formControl]="alternativa.get('codigo')" />
+                                            <mat-error>
+                                                <p *ngIf="alternativa.get('codigo').hasError('minlength')">
+                                                    Debe contener entre 1 y 15 caracteres.
+                                                </p>
+                                                <p *ngIf="alternativa.get('codigo').invalid">
+                                                    Caracteres permitidos letras, números o ambos.
+                                                </p>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field>
+                                            <input type="text" maxlength="100" matInput nombreAlternativa placeholder="Nombre" [formControl]="alternativa.get('nombre')" />
+                                            <mat-error>
+                                                <p *ngIf="alternativa.get('nombre').hasError('minlength')">
+                                                    Debe contener entre 1 y 100 caracteres.
+                                                </p>
+                                                <p *ngIf="alternativa.get('nombre').invalid">
+                                                    Caracteres permitidos letras, números o ambos.
+                                                </p>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="form_inputs top_align">
+                                    <div>
+                                        <mat-form-field>
+                                            <input type="number" matInput placeholder="Orden" min="1" [formControl]="alternativa.get('orden')" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-form-field>
+                                            <mat-select [formControl]="alternativa.get('estado')" placeholder="Estado" (click)="actualizarPregunta(forma.get('preguntas')['controls'][i].value.estado, i)">
+                                                <mat-option *ngFor="let item of encuestaActual.estados" [value]="item.value">
+                                                    {{ item.label }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div>
+                                        <mat-checkbox [formControl]="alternativa.get('esOtro')">Es Otro</mat-checkbox>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <div class="form_buttons">
+                    <div class="buttons_actions">
+                        <button type="submit" (click)="onSubmit()" id="submit" [disabled]="!forma.valid" mat-raised-button color="btnCeleste">
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+                        <button id="cancel" (click)="cancelar()" mat-raised-button color="btnGris">
+              <mat-icon>block</mat-icon> Cancelar
+            </button>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-card-content>
+</mat-card>

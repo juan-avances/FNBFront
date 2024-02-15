@@ -1,0 +1,67 @@
+<div class="cambio_clave">
+  <h2>Cambiar Contraseña</h2>
+  <form [formGroup]="forma" class="material-form form-validate">
+    <div class="example-container">
+      <mat-form-field>
+        <mat-icon style="cursor: pointer" matSuffix (click)="togglePasswordVisibility()"> {{showPassword?'visibility':'visibility_off'}}</mat-icon>
+        <input
+          required
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          name="password"
+          matInput
+          formControlName="password"
+          placeholder="Contraseña actual"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-icon style="cursor: pointer" matSuffix (click)="toggleNewPasswordVisibility()"> {{showNewPassword?'visibility':'visibility_off'}}</mat-icon>
+        <input
+          required
+          [type]="showNewPassword ? 'text' : 'password'"
+          id="newPassword"
+          name="newPassword"
+          (input)="onInput()"
+          matInput
+          formControlName="newPassword"
+          placeholder="Nueva contraseña"
+        />
+        <mat-error *ngIf="forma.controls.newPassword.errors?.minlength">Minimo {{forma.controls.newPassword.errors?.minlength.requiredLength}} caracteres</mat-error>
+        <mat-error *ngIf="forma.controls.newPassword.errors?.pattern">Contraseña insegura</mat-error>
+        <!-- <mat-error *ngIf="forma.get('newPassword').invalid">
+          <p>Minimo 8 caracteres.</p>
+          <p>Contraseña insegura</p>
+        </mat-error> -->
+      </mat-form-field>
+      <mat-form-field>
+        <mat-icon style="cursor: pointer" matSuffix (click)="toggleRePasswordVisibility()"> {{showRepeatPassword?'visibility':'visibility_off'}}</mat-icon>
+        <input
+          required
+          [type]="showRepeatPassword ? 'text' : 'password'"
+          id="newRePassword"
+          name="newRePassword"
+          (input)="onInput()"
+          matInput
+          formControlName="newRePassword"
+          placeholder="Confirmar contraseña"
+        />
+        <mat-error *ngIf="forma.get('newRePassword').invalid">
+          Las contraseña no coinciden
+        </mat-error>
+      </mat-form-field>
+      <div class="dialog_buttons">
+        <button
+          type="submit"
+          (click)="enviar()"
+          id="submit"
+          [disabled]="!forma.valid"
+          mat-raised-button
+          color="btnCeleste"
+        >
+          Guardar
+        </button>
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

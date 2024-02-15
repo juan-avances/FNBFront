@@ -1,0 +1,49 @@
+<div class="cambio_clave" >
+
+  <h2>Descarga Masiva Documentos</h2>
+  <form [formGroup]="baseGroup" class="material-form form-validate">
+    <div class="form_material">
+
+      <mat-form-field>
+        <mat-select placeholder="Aliado Comercial" (selectionChange)="changeCanales($event)"
+          formControlName="idAliadoComercial" >
+          <mat-option value="0">TODOS</mat-option>
+          <mat-option *ngFor="let aliado of optionAliados" value="{{ aliado.value }}">{{ aliado.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="form_inputs" style="margin-left: -30px;margin-right: -30px;">
+        <div>
+
+          <div *ngIf="showFecha">
+            <mat-form-field>
+              <input matInput onlyNumber [matDatepicker]="fecha_fin" placeholder="Fecha Inicio" (dateChange)="onBusquedaChange()"
+                formControlName="FechaVentaIni" name="FechaVentaIni" />
+              <mat-datepicker-toggle matSuffix [for]="fecha_fin"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_fin></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div>
+          <div *ngIf="showFecha">
+            <mat-form-field>
+              <input matInput onlyNumber [matDatepicker]="fecha_fin" placeholder="Fecha Fin" (dateChange)="onBusquedaChange()"
+                [value]="FechaVentaFin" formControlName="FechaVentaFin" name="FechaVentaFin" />
+              <mat-datepicker-toggle matSuffix [for]="fecha_fin"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_fin></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+        </div>
+      </div>
+      <div class="dialog_buttons">
+        <button type="submit" id="submit" mat-raised-button color="btnCeleste" (click)="save()">
+          Descargar
+        </button>
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

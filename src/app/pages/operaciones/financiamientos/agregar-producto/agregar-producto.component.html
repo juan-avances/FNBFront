@@ -1,0 +1,68 @@
+<div class="cambio_clave">
+  <h2>Agregar Producto</h2>
+  <form [formGroup]="forma" class="material-form form-validate">
+    <div class="example-container">
+      
+
+      
+      <mat-form-field >
+        <input
+          type="text"
+          placeholder="Buscar Proveedor"
+          aria-label="Number"
+          matInput
+          formControlName="aliadoId"
+          [matAutocomplete]="auto1"
+        />
+        <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn1" (optionSelected)="data1($event)">
+          <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
+            {{ option.label }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      
+      
+      <mat-form-field *ngIf="stateActive" >
+        <input
+          type="text"
+          placeholder="Buscar Producto"
+          aria-label="Number"
+          matInput
+          formControlName="producto"
+          [matAutocomplete]="auto"
+          style="font-size: 13px;" 
+        />
+        <mat-autocomplete style="font-size: 13px;" #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option  style="font-size: 13px;" *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option.label }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+      <mat-form-field *ngIf="stateActive">
+        <input
+          required
+          type="number"
+          min="1"
+          matInput
+          formControlName="cantidad"
+          placeholder="Ingrese la cantidad de Productos"
+        />
+      </mat-form-field>
+      <div class="dialog_buttons">
+        <button
+          type="submit"
+          [disabled]="!forma.valid"
+          (click)="enviar()"
+          id="submit"
+          mat-raised-button
+          color="btnCeleste"
+        >
+          Grabar
+        </button>
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

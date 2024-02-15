@@ -1,0 +1,208 @@
+
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Usuarios</h2>
+    
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="usuarioGroup">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <mat-select
+                (selectionChange)="change($event, dt)"
+                matInput
+                id="aliadoComercial"
+                formControlName="idAliado"
+                name="aliadoComercial"
+                [value]="aliadoComercialId"
+                placeholder="Aliado Comercial"
+          
+              >
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let alidoActual of aliados" [value]="alidoActual.value">
+                  {{ alidoActual.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                #userName
+                [type]="'text'"
+                id="usuario"
+                formControlName="idUsuario"
+                name="userName"
+                (change)="dt.filter($event.srcElement.value, 'usuario', 'contains',ngReloadParams)"
+                matInput
+                placeholder="Usuario"
+                maxlength="50"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+              (selectionChange)="dt.filter($event.value, 'tipoDocumento', 'equals',ngReloadParams)"
+                matInput
+                id="tipoDocumento"
+                formControlName="tipoDocumento"
+                name="tipoDocumento"
+                placeholder="Tipo de Documento"
+          
+              >
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let tipodocumento of tipoDocumentos" [value]="tipodocumento.value">
+                  {{ tipodocumento.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                #Nombres
+                [type]="'text'"
+                id="nombres"
+                formControlName="nombres"
+                name="Nombres"
+                (change)="dt.filter($event.srcElement.value, 'nombres', 'contains',ngReloadParams)"
+                matInput
+                placeholder="Nombres"
+                maxlength="50"
+                autocomplete="off"
+              />
+            </mat-form-field>
+
+            <mat-form-field>
+              <input
+                #Correo
+                [type]="'text'"
+                id="correo"
+                formControlName="correo"
+                name="Correo"
+                (change)="dt.filter($event.srcElement.value, 'correo', 'contains',ngReloadParams)"
+                matInput
+                placeholder="correo"
+                maxlength="50"
+                autocomplete="off"
+              />
+            </mat-form-field>
+
+            
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-select
+                [disabled]="sedeId"
+                [value]="sedeId"
+                (selectionChange)="dt.filter($event.value, 'sedeId', 'equals',ngReloadParams)"
+                matInput
+                id="sede"
+                formControlName="idSede"
+                name="sede"
+                placeholder="Sede"
+              >
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let sede of sedes" [value]="sede.value">
+                  {{ sede.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+                placeholder="Rol"
+                [disabled]="rolId"
+                [value]="rolId"
+                (selectionChange)="dt.filter($event.value, 'rolId', 'equals',ngReloadParams)"
+                formControlName="idRol"
+                name="rol"
+                matInput
+              >
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let rol of roles" [value]="rol.value">
+                  {{ rol.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                #DNI
+                [type]="'text'"
+                id="dni"
+                formControlName="dni"
+                name="DNI"
+                (change)="dt.filter($event.srcElement.value, 'dni', 'contains',ngReloadParams)"
+                matInput
+                placeholder="Nro de documento"
+                maxlength="11"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                #Apellidos
+                [type]="'text'"
+                id="apellidos"
+                formControlName="apellidos"
+                name="Apellidos"
+                (change)="dt.filter($event.srcElement.value, 'apellidos', 'contains',ngReloadParams)"
+                matInput
+                placeholder="Apellidos"
+                maxlength="50"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            
+
+            <mat-form-field>
+              <!-- (selectionChange)="dt.filter($event.value, 'estado', 'equals')" -->
+              <mat-select
+              
+                (selectionChange)="changeState($event, dt)"
+                matInput
+                id="estado"
+                formControlName="idEstado"
+                name="estado"
+                placeholder="Estado"
+              ><mat-option [value]="1">ACTIVOS</mat-option>
+              <mat-option [value]="0">INACTIVOS</mat-option>
+                <mat-option [value]="-1">TODOS</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-raised-button *ngIf="this._global.validarPermiso('DESCUSU')" color="btnCeleste" id="exportar" (click)="exportar()">
+              <i class="fas fa-file-excel"></i> Exportar Usuarios
+            </button>
+
+
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <div class="other_buttons">
+      <div class="buttons_">
+        <div class="right">
+          <a *ngIf="this._global.validarPermiso('AGRUSU')" [routerLink]="['/usuario']">
+            <button mat-raised-button color="btnCeleste">
+              <em class="material-icons-outlined"> add_circle_outline </em> Nuevo
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="content_material">
+      <app-paging-grid
+        #dt
+        [dataEntity]="dataEntity"
+        (paginationLoad)="loadLazy($event)"
+        (updateState)="updateState($event)"
+      ></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>
+

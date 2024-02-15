@@ -1,0 +1,138 @@
+<mat-card class="calidda-card" style="margin-top: 0px;">
+  <mat-card-header>
+      <mat-card-title>
+          <h2>Validacion Reniec</h2>
+      </mat-card-title>
+      <mat-card-subtitle>Por favor ingresa la siguiente información</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="card-content" >
+    <form [formGroup]="forma" onkeydown="return event.key != 'Enter';">
+      <!-- <div class="col text-center py-2 mb-3">
+        <strong>Por favor ingresa la siguiente información antes de continuar:</strong>
+      </div> -->
+      <!-- <div class="w-100"></div> -->
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12 col-md-6" style="padding-right: 18px;">
+                  <div class="row-content mb-4">
+                      <!-- <div class="p-sm-0 col-sm-12 col-md-12 label-content">
+                          <label><b>1.</b> DNI y digito de verificación:</label>
+                          
+                      </div> -->
+                      <div class="col-sm col-md content-flex p-0">
+                        <table cellspacing="0"><tr>
+                          <td><mat-form-field style="width: 110px;">
+                              <input matInput readonly type="text" placeholder="DNI" formControlName="dni"
+                              onlyNumber maxlength="8">
+                          </mat-form-field></td>
+                          <td><span class="mx-1">-</span></td>
+                          <td><mat-form-field style="width: 60px;">
+                              <input  matInput style="text-align: center;" autocomplete="off" type="text" formControlName="validationDigit"
+                                  maxlength="1" onlyNumber>
+                              <mat-hint align="end">Codigo verificador</mat-hint>
+                              <mat-icon matSuffix matTooltip="Ingrese el DNI y el digito de seguridad*">help_outline</mat-icon>
+                          </mat-form-field>
+                          
+                          </td>
+                        </tr></table>
+                        
+                      </div>
+                  </div>
+                  <div class="row-content mb-4">
+                      <!-- <div class="p-sm-0 col-sm-3 col-md-6 label-content">
+                          <span>2. Fecha de nacimiento:</span>
+                      </div> -->
+                      <div class="col-sm col-md content-flex p-0">
+                          <mat-form-field style="width: 180px;">
+                              <input matInput autocomplete="off" [matDatepicker]="picker" placeholder="Fecha nacimiento*"
+                              [min]='fechaMin' [max]="fechaActual" formControlName="birthDate">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                              <mat-error><strong>Debe seleccionar una fecha de nacimiento.</strong> </mat-error>
+                          </mat-form-field>
+                          <!-- <span class="material-icons"
+                              matTooltip='Información&#13;DD/MM/AA&#13;(Día/Mes/Año)'>help_outline</span> -->
+                      </div>
+                  </div>
+                  <div class="row-content mb-4">
+                      <!-- <div class="p-sm-0 col-sm-3 col-md-6 label-content">
+                          <span>3. Lugar de nacimiento:</span>
+                      </div> -->
+                      <div class="col-sm-12 col-md-12 content-flex p-0">
+                          <mat-form-field>
+                              <!-- <mat-label>Lugar de nacimiento</mat-label> -->
+
+                              <mat-select formControlName="birthPlace" placeholder="Lugar de nacimiento">
+                                <!-- <mat-option value="">Ninguno</mat-option> -->
+                                  <mat-option *ngFor="let item of departamentos" value="{{item.label}}">
+                                      {{item.label}}</mat-option>
+                              </mat-select>
+                              <mat-hint>Departamento</mat-hint>
+                              <mat-error><strong>Debe seleccionar una lugar de nacimiento.</strong> </mat-error>
+                          </mat-form-field>
+                          <!-- <i class="material-icons"
+                              matTooltip='Seleccione el departamento&#13;de su lugar de nacimiento.'>help_outline</i> -->
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-12 col-md-6" style="padding-right: 18px; border-left: 1.5px solid #e0e0e0;padding-left: 10px;">
+                  <div class="row-content mb-sm-0 mb-md-4">
+                      <div class="p-sm-0 col-12 label-content" style="height: 58px;">
+                        
+                          <label style="font-size: 11px;  border-left: 4px solid #1e9fda;
+                          padding-left: 10px;position: absolute; bottom: 0;">Completar campos de padres (Obligatorios)</label>
+                          
+                      </div>
+                  </div>
+                  <div class="row-content mb-4">
+                      <!-- <div class="p-sm-0 col-sm-3 col-md-6 label-content">
+                          <span>4.1. Nombres de tu madre:</span>
+                      </div> -->
+                      <div class="col-sm-12 col-md-12 content-flex p-0">
+                          <mat-form-field>
+                              <!-- <mat-label>Nombres de tu madre</mat-label> -->
+                              <input matInput onlyLetterSpace autocomplete="off" type="text" placeholder="Nombre de madre" formControlName="motherName" (keyup)="onChangeMother($event)">
+                              <mat-icon matSuffix class="material-icons"
+                            matTooltip='Debe ingresar los nombres completos de su Padre o Madre usando tildes (de ser el caso). Ejemplo: MARÍA MÓNICA, RENÉ NOEMÍ, JOSÉ MARÍA, JULIÁN ANDRÉS, etc.'>help_outline</mat-icon>
+                            <mat-error><strong>Debe seleccionar ingresar el nombre de la madre.</strong> </mat-error>
+                          </mat-form-field>
+                      </div>
+                  </div>
+                  <div class="row-content mb-4">
+                      <!-- <div class="p-sm-0 col-sm-3 col-md-6 label-content">
+                          <span>4.2. Nombres de tu padre:</span>
+                      </div> -->
+                      <div class="col-sm-9 col-md-6 content-flex p-0">
+                          <mat-form-field>
+                              <!-- <mat-label>Nombres de tu padre</mat-label> -->
+                              <input matInput onlyLetterSpace autocomplete="off" type="text" placeholder="Nombre de padre" formControlName="fatherName" (keyup)="onChangeFather($event)">
+                              <mat-icon matSuffix class="material-icons"
+                            matTooltip='Debe ingresar los nombres completos de su Padre o Madre usando tildes (de ser el caso). Ejemplo: MARÍA MÓNICA, RENÉ NOEMÍ, JOSÉ MARÍA, JULIÁN ANDRÉS, etc.'>help_outline</mat-icon>
+                            <mat-error><strong>Debe seleccionar ingresar el nombre del padre.</strong> </mat-error>
+                          </mat-form-field>
+                      </div>
+                  </div>
+                </div>
+          </div>
+          <div class="row-content" *ngIf="clienteFallecido">
+            <div class="alert alert-danger" role="alert">
+                Cliente fallecido
+              </div>
+          </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+<div class="form_footer">
+  <div class="form_buttons">
+    <div class="buttons_actions">
+      <button  type="submit" [disabled]="!forma.valid || clienteFallecido || flagDisableIntentos" mat-raised-button
+        color="btnCeleste" (click)="submit()">
+        <mat-icon>send</mat-icon> Validar
+      </button>
+      <button (click)="cancel()" mat-raised-button color="btnGris">
+        <mat-icon>block</mat-icon> Cancelar
+      </button>
+    </div>
+  </div>
+</div>

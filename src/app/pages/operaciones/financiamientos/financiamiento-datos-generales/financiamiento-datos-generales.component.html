@@ -1,0 +1,54 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Datos</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <section class="form_material">
+      <div class="form_inputs" *ngIf="datos">
+        <div>
+          <div class="content_flex">
+            <div>
+              <div class="bg">Aliado Comercial</div>
+              <div>{{ datos.aliadoComercial }}</div>
+            </div>
+            <div>
+              <div class="bg">Cliente</div>
+              <div>{{ datos.cliente }}</div>
+            </div>
+            <div>
+              <div class="bg">DNI</div>
+              <div>{{ datos.numeroDocumento }}</div>
+            </div>
+            <div>
+              <div class="bg">Correo SAP</div>
+              <div>{{ datos.correoSAP }}</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="content_flex">
+            <div>
+              <div class="bg">Sede</div>
+              <div>{{ datos.sede }}</div>
+            </div>
+            <div>
+              <div class="bg">Cta. Contrato</div>
+              <div>{{ datos.cuentaContrato }}</div>
+            </div>
+            <div>
+              <div class="bg">Linea de Crédito</div>
+              <div>S/ {{ datos.lineaCredito }}</div>
+            </div>
+            <div>
+              <div class="bg">Número de teléfono SAP</div>
+              <div>{{ datos.numeroTelefonoSAP }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </mat-card-content>
+</mat-card>

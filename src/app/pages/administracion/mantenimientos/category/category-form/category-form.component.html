@@ -1,0 +1,68 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Categoría</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div class="form_inputs top_align row">
+          <div class="col-md-12">
+            <mat-form-field>
+              <input type="text" matInput placeholder="Nombre" formControlName="name" letterNumberSign maxlength="100" />
+              <mat-error>
+                <p *ngIf="formGroup.get('name').hasError('minlength')">
+                  Debe contener entre 1 a 100 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('name').invalid">
+                  Caracteres permitidos solo letras,números o ambos.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Código Material"
+                codigoMaterial
+                formControlName="code"
+                maxlength="10"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('code').hasError('minlength')">
+                  Debe contener entre 1 a 10 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('code').invalid">
+                  Caracteres permitidos solo letras, números o ambos.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs middle_align mt-4">
+          <div class="checkRoles">
+            <mat-checkbox formControlName="estadoEnPortal" color="primary" class="rolCheck">Visible en Portal</mat-checkbox>
+          </div>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              type="submit"
+              (click)="save()"
+              id="submit"
+              [disabled]="!formGroup.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button (click)="cancel()" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

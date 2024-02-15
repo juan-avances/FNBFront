@@ -1,0 +1,178 @@
+<p-table
+  #dt
+  [lazy]="true"
+  (onLazyLoad)="loadEntidadLazy($event)"
+  [columns]="visibleColumns"
+  [loading]="loading"
+  [value]="parametrosGrilla.data"
+  [paginator]="true"
+  [rows]="10"
+  [totalRecords]="parametrosGrilla.totalRegistros"
+  dataKey="id"
+  [(selection)]="selectedItems"
+  sortField="Id"
+  [first]="0"
+  class="table-striped"
+>
+  <ng-template pTemplate="caption">
+    <ng-container *ngIf="parametrosGrilla.search">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6" style="text-align: left"></div>
+        <div style="text-align: right" class="col-xs-12 col-sm-6 col-md-6 small">
+          <div class="form-group">
+            <div class="input-group mb-3 input_buscar">
+              <input
+                class="form-control"
+                type="text"
+                pInputText
+                size="50"
+                placeholder="Buscar"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-secondary" title="Buscar" type="button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <ng-container *ngIf="parametrosGrilla.canCheck">
+        <col [style.width]="5 + '%'" />
+        <col [style.width]="5 + '%'" />
+      </ng-container>
+      <ng-container *ngIf="!parametrosGrilla.canCheck">
+        <col [style.width]="5 + '%'" />
+      </ng-container>
+      <col *ngFor="let col of columns" [style.width]="col.width + '%'" />
+      <ng-container *ngIf="parametrosGrilla.canDelete">
+        <col [style.width]="10 + '%'" />
+      </ng-container>
+    </colgroup>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr class="small table_th">
+      <th *ngIf="parametrosGrilla.canCheck" class="text-center">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th class="text-center">Nº</th>
+      <!--<th *ngFor="let col of columns" [pSortableColumn]="col.field"></th> -->
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+        <!--     <p-sortIcon [field]="col.field"></p-sortIcon> -->
+      </th>
+      <th *ngIf="parametrosGrilla.canDelete"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-index="rowIndex" let-columns="columns" let-rowData>
+    <tr class="small">
+      <td [pSelectableRow]="rowData" *ngIf="parametrosGrilla.canCheck" class="text-center">
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td class="text-center">{{ index + 1 }}</td>
+      <ng-container *ngFor="let column of columns">
+        <ng-container *ngIf="column.editable">
+          <td pEditableColumn>
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <ng-container *ngTemplateOutlet="input; context: { column: column, rowData: rowData }"> </ng-container>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <ng-container *ngTemplateOutlet="output; context: { column: column, rowData: rowData }"> </ng-container>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+        </ng-container>
+        <ng-container *ngIf="!column.editable">
+          <td>
+            <ng-container *ngTemplateOutlet="output; context: { column: column, rowData: rowData }"> </ng-container>
+          </td>
+        </ng-container>
+      </ng-container>
+      <td *ngIf="parametrosGrilla.canDelete">
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group" role="group" aria-label="Third group">
+            <button type="button" title="Eliminar" class="btn btn-sm btn-light" (click)="delete(rowData.id)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <button type="button" title="Guardar" class="btn btn-sm btn-light" (click)="save(rowData)">
+              <i class="fa fa-save" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer" let-columns>
+    <tr *ngIf="parametrosGrilla.canAdd">
+      <td
+        [attr.colspan]="parametrosGrilla.columnas.length + 1 + (parametrosGrilla.canCheck ? 1 : 0)"
+        class="small"
+        (click)="addEmptyRow()"
+      >
+        Ingrese una nueva Fila
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="parametrosGrilla.columnas.length + 1 + (parametrosGrilla.canCheck ? 1 : 0)" class="small">
+        No se encontraron registros
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<ng-template #input let-column="column" let-rowData="rowData">
+  <ng-container [ngSwitch]="column.controlInput">
+    <input
+      *ngSwitchCase="'input'"
+      type="text"
+      [ngModel]="rowData | propertyValue: column.field"
+      (ngModelChange)="setPropertyValue(column, $event, rowData)"
+    />
+    <input
+      *ngSwitchCase="'check'"
+      type="checkbox"
+      [ngModel]="rowData | propertyValue: column.field"
+      (ngModelChange)="setPropertyValue(column, $event, rowData)"
+    />
+
+    <ng-container *ngSwitchCase="'autocomplete'">
+      <span class="has-float-label">
+        <p-autoComplete
+          [suggestions]="results"
+          [ngModel]="rowData | propertyValue: column.field"
+          (ngModelChange)="setPropertyValue(column, $event, rowData)"
+          (completeMethod)="search($event, column)"
+          field="label"
+        >
+        </p-autoComplete>
+      </span>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #output let-column="column" let-rowData="rowData">
+  <ng-container [ngSwitch]="column.controlOutput">
+    <ng-container *ngSwitchDefault>
+      {{ rowData | propertyValue: column.field }}
+    </ng-container>
+    <ng-container *ngSwitchCase="'check'">
+      <input
+        type="checkbox"
+        [ngModel]="rowData | propertyValue: column.field"
+        (ngModelChange)="setPropertyValue(column, $event, rowData)"
+      />
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<p-overlayPanel #op [dismissable]="true" [showCloseIcon]="true">
+  Content
+</p-overlayPanel>

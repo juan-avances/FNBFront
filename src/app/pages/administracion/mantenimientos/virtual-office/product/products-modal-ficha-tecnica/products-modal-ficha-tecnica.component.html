@@ -1,0 +1,48 @@
+<!-- Cargar Ficha Técnica -->
+<div class="modal-header">
+  <p class="bolder">Cargar Ficha Técnica</p>
+</div>
+<mat-dialog-content>
+  <div class="modal-body d-flex justify-content-center">
+    <form class="example-form">
+      <div class="col-md-12">
+        <div class="p-2 flex-md-fill bd-highlight">
+          <ng-container *ngIf="dataSheetURLValue; then trueValue; else falseValue"> </ng-container>
+          <ng-template #trueValue>
+            <button mat-raised-button (click)="downloadFile()">Descargar ficha técnica</button>
+          </ng-template>
+          <ng-template #falseValue>
+            <p class="ficha-font">Aún no se ha cargado la ficha técnica</p>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="d-flex bd-highlight align-items-center">
+          <div class="p-2 flex-md-fill bd-highlight">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ficha Técnica</mat-label>
+              <ngx-mat-file-input accept=".pdf" (change)="setFile($event)" type="file"> </ngx-mat-file-input>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<div class="modal-footer">
+  <mat-dialog-actions class="btnStyle-1">
+    <div class="form_buttons">
+      <div class="buttons_actions">
+        <button mat-raised-button (click)="uploadDataSheetFile()" color="btnCeleste">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+        <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="btnGris">
+          <mat-icon>clear</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,95 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Perfiles</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <!-- contenido -->
+    <form [formGroup]="forma" *ngIf="forma">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <mat-select
+                matInput
+                (selectionChange)="onChange()"
+                [disabled]="idAliadoComercial"
+                id="aliadoComercial"
+                name="idAliadoComercial"
+                [value]="idAliadoComercial"
+                formControlName="idAliadoComercial"
+                placeholder="Aliado Comercial"
+              >
+                <mat-option *ngFor="let aliado of optionAliado" value="{{ aliado.value }}">
+                  {{ aliado.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div></div>
+        </div>
+        <div class="form_inputs">
+          <div class="checkRoles">
+            <h4>Roles</h4>
+            <mat-checkbox
+              *ngFor="let role of optionRoles"
+              class="rolCheck"
+              [(ngModel)]="role.state"
+              color="primary"
+              matInput
+              [ngModelOptions]="{ standalone: true }"
+              >{{ role.label }}
+            </mat-checkbox>
+          </div>
+        </div>
+        <div *ngIf="formularios" class="content_material">
+          <p-treeTable [value]="formularios" class="table-striped">
+            <ng-template pTemplate="header">
+              <tr class="small table_th">
+                <th>Permiso</th>
+                <ng-container *ngFor="let rol of optionRoles">
+                  <th [width]="12 + '%'" *ngIf="rol.state">{{ rol.label }}</th>
+                </ng-container>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr class="small table_td" *ngIf="optionRoles[2].state || true">
+                <td>
+                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                  {{ rowData.accion }}
+                </td>
+                <ng-container *ngFor="let rolActual of optionRoles; let index = index">
+                  <td
+                    class="center_button"
+                    *ngIf="rolActual.state"
+                    (click)="rolActual.enabled && togglePermiso(rowData, rolActual)"
+                  >
+                    <mat-icon class="checkIcon" *ngIf="rowData[rolActual.value]">done</mat-icon>
+                  </td>
+                </ng-container>
+              </tr>
+            </ng-template>
+          </p-treeTable>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              *ngIf="_global.isAdministradorWeb() || _global.isAdministradorAliado()"
+              type="submit"
+              id="submit"
+              (click)="onSubmit()"
+              [disabled]="!forma.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button id="cancel" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

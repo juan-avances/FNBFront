@@ -1,0 +1,15 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Correos</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+      <br />
+      <div><p>Lista de correos para envío de alertas de registro y edición de financiamientos.</p></div>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <div class="content_material">
+      <app-local-grid #dt [listFeatureService]="_correoMantenimientoServicio"></app-local-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

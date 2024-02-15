@@ -1,0 +1,159 @@
+<div class="upload-file-content" [hidden] = "ocultar">
+  <div *ngIf="documentos.length > 0" class="mat-card-header-text" >
+    <mat-card-title class="mat-card-title flex-container">
+      <div class="titulo">
+        <div class="round-state-color" [ngClass]="getRoundStateColorClass()"></div>
+        <h3 class="mat-card-mb-1 mat-card-mt-0 inline-block" >{{ tipoDocumento }}</h3>
+      </div>
+      <div class="validacion" hidden>
+        <ng-container *ngIf="estadoConformidad === -1; else notNullConformidad">
+          <h3 class="mat-card-mb-1 mat-card-mt-0 inline-block">Validación Documentaria: Sin Validar</h3>
+          <mat-icon class="round-state-color" style="color: gray;">lens</mat-icon>
+        </ng-container>
+      
+        <ng-template #notNullConformidad>
+          <ng-container *ngIf="estadoConformidad === 1; else noConforme">
+            <h3 class="mat-card-mb-1 mat-card-mt-0 inline-block">Validación Documentaria: Conforme</h3>
+            <mat-icon class="round-state-color" style="color: green;">check_circle</mat-icon>
+          </ng-container>
+      
+          <ng-template #noConforme>
+            <h3 class="mat-card-mb-1 mat-card-mt-0 inline-block">Validación Documentaria: No Conforme</h3>
+            <mat-icon class="round-state-color" style="color: red;">cancel</mat-icon>
+          </ng-template>
+        </ng-template>
+      </div>
+    </mat-card-title>
+    <br>
+    <div class="row m-10 scrollable-table">
+      <table mat-table [dataSource]="documentos" class="tableStyle" matSort style="width: 100%;">         
+          <!-- Nombre del documento Column -->
+          <ng-container matColumnDef="nombre">
+              <th mat-header-cell *matHeaderCellDef class="column-25"> Documento </th>
+              <td mat-cell *matCellDef="let documento" class="column-25"
+              [ngStyle]="{'color': shouldChangeColor(documento) ? 'gray' : 'black'}"
+              [matTooltip]="getTooltipMessage(documento.nombre)"> {{documento.nombre}} </td>
+          </ng-container>
+    
+          <!-- Documento agregado Column -->
+          <ng-container matColumnDef="documentoAgregado">
+              <th mat-header-cell *matHeaderCellDef class="column-10"> ¿Adjuntado? </th>
+              <td mat-cell *matCellDef="let documento" class="column-10"
+              [ngStyle]="{'color': shouldChangeColor(documento) ? 'gray' : 'black'}"> {{documento.documentoAgregado ? 'SI' : 'NO'}} </td>
+          </ng-container>
+    
+          <!-- Nombre del archivo Column -->
+          <ng-container matColumnDef="nombreArchivo">
+              <th mat-header-cell *matHeaderCellDef class="column-45"> Archivo </th>
+              <td mat-cell *matCellDef="let documento" class="column-45"
+              [ngStyle]="{'color': shouldChangeColor(documento) ? 'gray' : 'black'}"> {{documento.nombreArchivo}} </td>
+          </ng-container>
+
+              <!-- Botón de carga Column -->
+          <ng-container matColumnDef="upload">
+            <th mat-header-cell *matHeaderCellDef class="column-10">Cargar</th>
+            <td mat-cell *matCellDef="let documento" class="column-10">
+                <div class="file_input" class="buttonSize2 float-center btn-upload-file" (click)="shouldDisableButtons(documento)? false : fileInput.click()">
+                    <button id="update" class="buttonsize" mat-raised-button color="btnCeleste_l"
+                    [ngClass]="{'disabled-button': shouldDisableButtons(documento)}">
+                        <i class="fas fa-upload"></i> <span class="ocultar"></span>
+                    </button>
+                    <input class="file_input" #fileInput type="file" style="display: none" 
+                          accept={{allowedExtensions}} (change)="loadArchivo($event, documento)" multiple="true" />
+                </div>
+            </td>
+          </ng-container>
+
+          <!-- Botón de eliminado Column -->
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef class="column-10">Eliminar</th>
+            <td mat-cell *matCellDef="let documento" class="column-10">
+                <div class="file_input mb-3px">                    
+                  <a class="vertical-align-midle"
+                 >
+                      <mat-icon class="mat-icon-mt-1px" style="color: gray;" (click)="deleteDocumento(documento)">delete</mat-icon>
+                  </a>                    
+                </div>
+            </td>
+          </ng-container>
+
+          <!-- Botón de descarga Column -->
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef class="column-10">Descargar</th>
+            <td mat-cell *matCellDef="let documento" class="column-10">
+                <div class="file_input" class="buttonSize2 float-center btn-upload-file">
+                    <button mat-raised-button color="btnCeleste_l" 
+                    [disabled]="documento.idFinanciamientoArchivo === -1"
+                    (click)="downloadDocumento(documento)">
+                        <i class="fas fa-download"></i> <span class="ocultar"></span>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <!-- Desplegable Conforme -->
+        <ng-container matColumnDef="conforme">
+          <th mat-header-cell *matHeaderCellDef class="column-15"> ¿Conforme? </th>
+          <td mat-cell *matCellDef="let documento" class="column-15"
+          >  
+            <mat-select [value]="documento.tipoConformidad"
+            (selectionChange)="changeTipoConformidad($event.value, documento)" [hidden]="documento.deplegableTipo?.length == 0"
+            [(ngModel)]="documento.conformidad" [disabled]="documento.nombreArchivo=='Sin Documento'? true : readOnlyBool">
+            <mat-option *ngFor="let item of documento.deplegableTipo" [value]="item.value">
+              {{ item.text }}
+            </mat-option>
+            </mat-select>
+          </td>
+        </ng-container>
+        
+        <!-- Desplegable Comentarios -->
+        <ng-container matColumnDef="comentarios">
+          <th mat-header-cell *matHeaderCellDef class="column-25"> Comentarios </th>
+          <td mat-cell *matCellDef="let documento" class="column-25"
+          >  
+            <mat-select [value]="documento.comentario"
+            (selectionChange)="changeComentario($event, documento.idDocumento, documento.idFinanciamientoArchivo)"  
+            [hidden]="documento.deplegableTipo?.length == 0" [(ngModel)]="documento.comentarios" [disabled]="documento.nombreArchivo=='Sin Documento'? true : readOnlyBool">
+            <mat-option *ngFor="let item of documento.comentariosFiltrados" [value]="item.id">
+              {{ item.value }}
+            </mat-option>
+            </mat-select>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="revision">
+          <th mat-header-cell *matHeaderCellDef class="column-15"> # De Revisión </th>
+          <td mat-cell *matCellDef="let documento" class="column-15" [hidden]="documento.comentarios == -1"
+          > {{documento.revision}}
+        </td>
+        </ng-container>
+
+          <!-- Header and Row Definitions -->
+          <tr mat-header-row *matHeaderRowDef="['nombre', 'documentoAgregado', 'nombreArchivo', 'upload', 'delete', 'download', 'conforme', 'comentarios','revision']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['nombre', 'documentoAgregado', 'nombreArchivo', 'upload', 'delete', 'download', 'conforme', 'comentarios','revision'];"></tr>          
+      </table> 
+      <div class="row table-footer-buttons">
+        <div class="section"></div> 
+        <div class="section"></div> 
+        <div class="section" style="align-items: center;">
+            <button mat-icon-button (click)="downloadDocumentos(documentos)" [hidden]="!shouldHideButton">
+                <mat-icon style="color: skyblue;">download</mat-icon> Descargar Todos
+            </button>
+        </div>
+        <div class="section">
+          <button mat-icon-button (click)="deleteDocumentos(documentos)" [hidden]="!shouldHideButton">
+            <mat-icon style="color: gray;">delete</mat-icon> Eliminar Todos
+          </button>        
+        </div>
+      </div>
+    </div>    
+  </div>
+</div>
+
+<div class="form_buttons" [hidden] = "ocultarBoton">
+  <div class="buttons_actions">
+    <button mat-raised-button color="btnCeleste" (click)="saveDocuments()"><mat-icon>save</mat-icon>Guardar</button>
+    <button mat-raised-button color="btnGris" (click)="cancel()" style="margin-left: 10px;"><mat-icon>block</mat-icon>Cancelar</button>
+  </div>
+</div>
+
+<br [hidden] = "ocultar">

@@ -1,0 +1,220 @@
+<form [formGroup]="formGroup">
+  <mat-card class="calidda-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Búsqueda de Financiamiento</h2>
+        <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+      <section class="form_material" *ngIf="financiamientoInit">
+        <div class="form_inputs">
+          <div>
+
+            <mat-form-field>
+              <mat-select placeholder="Estado Financiamiento" formControlName="estado"
+                (selectionChange)="filterEstadoFin($event.value)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let item of financiamientoInit.estados" [value]="item.value">{{ item.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers1" (keypress)="validarNumero($event)"
+                formControlName="FechaVentaIni" placeholder="Fecha de venta Inicio"
+                (dateChange)="filterFechaVenta($event)" dateFormat="dd/MM/yyyy" />
+              <mat-datepicker-toggle matSuffix [for]="pickers1"></mat-datepicker-toggle>
+              <mat-datepicker #pickers1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers21" (keypress)="validarNumero($event)"
+                formControlName="FechaEntregaIni" placeholder="Fecha de entrega Inicio"
+                (dateChange)="filterFechaEntrega($event)" dateFormat="dd/MM/yyyy" />
+              <mat-datepicker-toggle matSuffix [for]="pickers21"></mat-datepicker-toggle>
+              <mat-datepicker #pickers21></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Cuenta Contrato" onlyNumber formControlName="cuentaContrato"
+                (change)="filterCuentaContrato($event.srcElement.value)"
+                (keyup.enter)="filterCuentaContrato($event.srcElement.value)" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput placeholder="N° Contrato Financiamiento" formControlName="nroContrato"
+                (change)="filterContratoFinanciamiento($event.srcElement.value)" />
+            </mat-form-field>
+
+            <!-- <mat-select placeholder="Aliado Comercial" -->
+            <mat-form-field>
+              <mat-select placeholder="Responsable de venta"
+                [disabled]="(!EsProveedor && !this._global.isAdministradorWeb() && !this._global.isGOperacionWeb && !this._global.isUsuarioVisualizador()) || hasSede"
+                formControlName="aliadoId" matInput (selectionChange)="change($event)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let aliado of financiamientoInit.aliados" [value]="aliado.value">
+                  {{ aliado.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+
+
+
+
+
+            <div class="form_material">
+              <div class="row">
+                <div class="col-sm-9">
+                  <mat-form-field>
+                    <mat-select placeholder="Aliado Comercial" [disabled]="idAliadoComercial && EsProveedor"
+                      formControlName="proveedorId" matInput (selectionChange)="changeProveedor($event)">
+                      <mat-option>TODOS</mat-option>
+                      <mat-option *ngFor="let proveedor of financiamientoInit.proveedores" [value]="proveedor.value">
+                        {{ proveedor.label }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div *ngIf="isOrderByButton">
+                  <div class="col-sm-2">
+                    <button type="button" mat-raised-button color="btnCeleste" (click)="orderByInformation()">
+                      <i></i> A - Z
+                    </button>
+                  </div>
+                </div>
+
+                <div *ngIf="!isOrderByButton">
+
+                  <div class="col-sm-2">
+                    <button type="button" mat-raised-button color="btnCeleste" (click)="orderByInformationReciente()">
+                      <i></i> Agregados
+                      recientemente
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <mat-form-field style="width: 20% !important; margin-right: 5%">
+              <mat-select placeholder="Tipo Documento" formControlName="tipoDocumento" matInput
+                (selectionChange)="changeTipoDoc($event); filterTipoDocumento($event.value)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let tipoDocumento of financiamientoInit.tiposDocumento"
+                  [value]="tipoDocumento.value">
+                  {{ tipoDocumento.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field style="width: 75% !important">
+              <input matInput formControlName="nroDocumento" placeholder="Número de documento"
+                pattern="{{ tipoValidacion }}" (change)="filterNroDocumento($event.srcElement.value)" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select placeholder="Categoría" formControlName="idCategoria" matInput
+                (selectionChange)="changeCategoria($event)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let categoria of financiamientoInit.categorias" [value]="categoria.value">
+                  {{ categoria.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-select placeholder="Canal de Venta" formControlName="canalId"
+                (selectionChange)="filterCanalVenta($event.value)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let item of financiamientoInit.canales" [value]="item.value">{{ item.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers20" (keypress)="validarNumero($event)"
+                formControlName="FechaVentaFin" placeholder="Fecha de venta Fin"
+                (dateChange)="filterFechaVentaFin($event)" dateFormat="dd/MM/yyyy" />
+              <mat-datepicker-toggle matSuffix [for]="pickers20"></mat-datepicker-toggle>
+              <mat-datepicker #pickers20></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="pickers22" (keypress)="validarNumero($event)"
+                formControlName="FechaEntregaFin" placeholder="Fecha de entrega Fin"
+                (dateChange)="filterFechaEntregaFin($event)" dateFormat="dd/MM/yyyy" />
+              <mat-datepicker-toggle matSuffix [for]="pickers22"></mat-datepicker-toggle>
+              <mat-datepicker #pickers22></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Número de pedido" formControlName="nroPedido"
+                (change)="filterNroPedido($event.srcElement.value)" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-select placeholder="Sede" matInput formControlName="sedeId" [disabled]="idSede" [value]="idSede"
+                [disabled]="idSede" [value]="idSede" (selectionChange)="filterSede($event.value)">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let sede of financiamientoInit.sedes" [value]="sede.value">
+                  {{ sede.label }}
+
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="{{ ViewUserResto }}">
+              <mat-form-field>
+                <input matInput required type="text" placeholder="Vendedor" formControlName="vendedor"
+                  [matAutocomplete]="auto" />
+                <mat-autocomplete #auto="matAutocomplete"
+                  (optionSelected)="filterVendedor($event.option.value.label, $event.option.value.value)"
+                  [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{ option.label }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="{{ ViewUserVendedor }}">
+              <mat-form-field>
+                <input placeholder="Vendedor" matInput readonly disabled value="{{ NombreCompleto }}" />
+              </mat-form-field>
+            </div>
+            <!--test-->
+            <button *ngIf="showExportar" type="button" id="exportar" mat-raised-button color="btnCeleste"
+              (click)="exportar()">
+              <i class="fas fa-file-excel"></i> Exportar
+            </button>
+
+            <i style="color: white;">----</i>
+
+            <button *ngIf="showExportar" type="button" id="exportar" mat-raised-button color="btnCeleste"
+              (click)="abrirCargaMasiva()">
+              <i></i> Descargar Documentos
+            </button>
+            <i style="color: white;">----</i>
+            
+            <button type="button" id="exportarValidacion" mat-raised-button color="btnCeleste"
+            (click)="exportarValidacion()">
+            <i class="fas fa-file-excel"></i> Exportar Validación Documentaria
+          </button>
+          </div>
+        </div>
+      </section>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="calidda-card">
+    <mat-card-content class="card-content">
+      <section class="form_material">
+        <div class="content_material px-0">
+          <app-paging-grid #dt [dataEntity]="dataEntity" (paginationLoad)="loadLazy($event)"></app-paging-grid>
+        </div>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</form>

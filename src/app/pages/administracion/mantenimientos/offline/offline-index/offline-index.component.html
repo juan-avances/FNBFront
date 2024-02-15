@@ -1,0 +1,309 @@
+<mat-card class="calidda-card" >
+  <mat-card-header style="width: 100%;">
+    <mat-card-title style="display: flex;">
+      <h2 style="flex: 1;">Estado</h2>
+      <div>
+        OFF
+        <mat-slide-toggle [(ngModel)]="offline" color="primary"></mat-slide-toggle>
+        ON
+      </div>
+
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div style="font-weight: 600;margin: 0px 30px;">Vigencia OFFLINE (SAP)</div>
+        <div class="form_inputs">
+          
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="date"
+                [(ngModel)]="sapfechaInicio"
+                formControlName="sapfechaInicio"
+                matInput
+                placeholder="Fecha Inicio"
+                maxlength="100"
+                [readonly]="!offline"
+                [ngClass]="!offline?'disabledd':''"
+              />
+            </mat-form-field>
+            
+            
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="sapfechaIniciot"
+                formControlName="sapfechaIniciot"
+                matInput
+                placeholder="Hora Inicio"
+                maxlength="100"
+                [readonly]="!offline"
+                [ngClass]="!offline?'disabledd':''"
+              />
+            </mat-form-field>
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="date"
+                [(ngModel)]="sapfechaFin"
+                formControlName="sapfechaFin"
+                matInput
+                placeholder="Fecha Fin"
+                maxlength="100"
+                [min]="obtenerFechaActual()"
+              
+              />
+            </mat-form-field>
+            
+            
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="sapfechaFint"
+                formControlName="sapfechaFint"
+                matInput
+                placeholder="Hora Fin"
+                maxlength="100"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <div class="other_buttons">
+          <div class="buttons_">
+            <div class="right">
+              <button mat-raised-button color="btnCeleste" (click)="actualizarConfOffline()"><em class="material-icons-outlined">
+                save
+              </em> Actualizar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title style="display: flex;">
+      <h2 style="flex: 1;">Sistema Offline</h2>
+      <div *ngIf="false">
+        Offline
+        <mat-slide-toggle [(ngModel)]="offline" color="primary"></mat-slide-toggle>
+        Online
+      </div>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div *ngIf="false" style="font-weight: 600;margin: 10px 30px;">Vigencia OFFLINE (SAP)</div>
+        <div *ngIf="false" class="form_inputs">
+          
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="date"
+                [(ngModel)]="sapfechaInicio"
+                formControlName="sapfechaInicio"
+                matInput
+                placeholder="Fecha Inicio"
+                maxlength="100"
+                [readonly]="!offline"
+                [ngClass]="!offline?'disabledd':''"
+              />
+            </mat-form-field>
+            
+            
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="sapfechaIniciot"
+                formControlName="sapfechaIniciot"
+                matInput
+                placeholder="Hora Inicio"
+                maxlength="100"
+                [readonly]="!offline"
+                [ngClass]="!offline?'disabledd':''"
+              />
+            </mat-form-field>
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="date"
+                [(ngModel)]="sapfechaFin"
+                formControlName="sapfechaFin"
+                matInput
+                placeholder="Fecha Fin"
+                maxlength="100"
+                [min]="obtenerFechaActual()"
+              />
+            </mat-form-field>
+            
+            
+          </div>
+          <div>
+            
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="sapfechaFint"
+                formControlName="sapfechaFint"
+                matInput
+                placeholder="Hora Fin"
+                maxlength="100"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div style="font-weight: 600;margin: 0px 30px;">Parámetros de Reintentos</div>
+        <div class="form_inputs">
+          
+          <div>
+            <mat-form-field>
+              <mat-select
+                [(ngModel)]="estadoOffline"
+                matInput
+                id="estado"
+                name="estado"
+                placeholder="Sistema Reintentos (Offline)"
+                formControlName="estadoOffline"
+              >
+                <mat-option [value]="1">ACTIVO</mat-option>
+                <mat-option [value]="0">INACTIVO</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+               onlyNumber
+
+                [(ngModel)]="cantidadEnvio"
+                formControlName="cantidadEnvio"
+                [readonly]="estadoOffline=='0'"
+                matInput
+                min="1"
+                
+                placeholder="Cantidad de registros para envío (grupo)"
+                maxlength="3"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+              onlyNumber
+                [(ngModel)]="tiempoEnvio"
+                formControlName="tiempoEnvio"
+                [readonly]="estadoOffline=='0'"
+                matInput
+                min="1"
+               
+                placeholder="Cantidad de tiempo de envío (min) por grupo"
+                maxlength="3"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+              />
+            </mat-form-field>
+            
+            
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                type="date"
+                [(ngModel)]="fechaInicio"
+                formControlName="fechaInicio"
+                matInput
+                placeholder="Fecha Inicio"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+                [readonly]="estadoOffline=='0'"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+              type="date"
+                [(ngModel)]="fechaFin"
+                formControlName="fechaFin"
+                matInput
+                placeholder="Fecha Fin"
+                [min]="obtenerFechaActual()"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+                [readonly]="estadoOffline=='0'"
+              />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="fechaIniciot"
+                formControlName="fechaIniciot"
+                matInput
+                placeholder="Hora Inicio"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+                [readonly]="estadoOffline=='0'"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <input
+              type="time"
+                [(ngModel)]="fechaFint"
+                formControlName="fechaFint"
+                matInput
+                placeholder="Hora Fin"
+                [ngClass]="estadoOffline=='0'?'disabledd':''"
+                [readonly]="estadoOffline=='0'"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="other_buttons">
+          <div class="buttons_">
+            <div class="right">
+              <button mat-raised-button color="btnCeleste" (click)="actualizarConf()"><em class="material-icons-outlined">
+                save
+              </em> Actualizar Configuración</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Registro de Pendientes</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <div class="content_material">
+      <app-paging-grid
+        #dt
+        [dataEntity]="dataEntity"
+        (paginationLoad)="loadLazy($event)"
+      ></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,39 @@
+.form_material {
+    display: flex;
+    flex-direction: column;
+    .form_inputs {
+        display: flex;
+        &>div {
+            margin: 30px;
+            flex: 1;
+            .mat-form-field {
+                width: 100%;
+            }
+        }
+        &.top_align {
+            div {
+                margin-bottom: 0;
+            }
+        }
+        &.middle_align {
+            div {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+        }
+        &.bottom_align {
+            div {
+                margin-top: 0;
+            }
+        }
+    }
+    .form_buttons {
+        display: flex;
+        justify-content: center;
+        .buttons_actions {
+            button {
+                margin: 15px;
+            }
+        }
+    }
+}

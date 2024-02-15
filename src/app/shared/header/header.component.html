@@ -1,0 +1,55 @@
+<div class="card_header">
+  <header class="main_header">
+    <div class="header_content">
+      <div class="system_name">
+        <!-- Sistema FNB -->
+      </div>
+      <div class="user_config">
+        <!--<div class="_user_name" style="color: red">
+                    <h2>SERVIDOR PRUEBA</h2>
+                </div>
+                <div class="separador"><div class="sep_vertical"></div></div>
+            -->
+        <!-- <div class="campana">
+          <i class="fas fa-bell"></i>
+        </div> -->
+        <div class="_user_name" >
+          <h4></h4>
+          <h4></h4>
+        </div>
+        <div class="_user_name">
+          <h2>{{ NombreCompleto }}</h2>
+          <h4><span *ngIf="showAliadoName">Aliado: {{ AliadoNombre }} &nbsp;</span> <span *ngIf="showSedeName">  Sede: {{ SedeNombre }} &nbsp;</span> Rol: {{ RolUsuario }}</h4>
+        </div>
+        <div class="separador"><div class="sep_vertical"></div></div>
+        <div class="_user_icon" (click)="_global.ocultar = !_global.ocultar">
+          <a
+            ><div class="fa_icon fa_azul"><i class="fas fa-user"></i></div
+          ></a>
+        </div>
+        <div style="height: 35px; padding-top: 7px;">
+          <div class="round-state-color" [style.background]="color"></div>
+        </div>
+        <!-- alert user -->
+        <div class="alert_drop_down" *ngIf="_global.ocultar">
+          <div class="arrow-up"></div>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title style="font-size: 16px; margin-top: 10px; margin-left: 20px;"><h2>Configuración</h2></mat-card-title>
+            </mat-card-header>
+            <div>
+              <a (click)="openDialog()"><mat-icon>lock</mat-icon> Cambiar contraseña</a>
+            </div>
+            <div>
+              <a (click)="cerrarSesion()"
+                ><div class="fa_icon fa_celeste">
+                  <i class="fas fa-power-off"></i> <span class="text_inherit">Cerrar Sesión</span>
+                </div></a
+              >
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>

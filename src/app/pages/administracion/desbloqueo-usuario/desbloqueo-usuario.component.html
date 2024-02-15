@@ -1,0 +1,56 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Desbloquear Usuario</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <!-- <form [formGroup]="baseGroup"> -->
+      <section class="form_material">
+        <!-- <div style="font-weight: 600;margin: 0px 30px;">Vigencia OFFLINE (SAP)</div> -->
+        <div class="form_inputs"> 
+          
+          <div>
+            <table>
+              <tr>
+                <td class="p-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Nombre de usuario</mat-label>
+                    <input
+                    type="text"
+                    matInput
+                    [(ngModel)] = "userName"
+                    [ngModelOptions]="{standalone: true}"
+                    placeholder="Usuario"
+                    maxlength="15"
+                    minlength="8"
+                    [disabled] = "isBloqueado"
+                  />
+                  </mat-form-field>
+                </td>
+                <td style="padding-right: 5px;">
+                  <span *ngIf="isBloqueado">Usuario Bloqueado <mat-icon >block</mat-icon></span>
+                  
+                </td>
+                <td style="padding-right: 5px;">
+                  <button type="button" id="exportar" mat-raised-button color="btnCeleste" [disabled] = "isBloqueado"
+                  (click)="Buscar()">
+                    <i ></i> Buscar
+                  </button>
+                </td>
+                <td>
+                  <button type="button" id="exportar" mat-raised-button color="btnCeleste" [disabled] = "!isBloqueado"
+                  (click)="Liberar()">
+                    <i ></i> Liberar
+                  </button>
+                </td>
+              </tr>
+             
+            </table>
+          </div>
+          
+        </div>
+      </section>
+    <!-- </form> -->
+  </mat-card-content>
+</mat-card>

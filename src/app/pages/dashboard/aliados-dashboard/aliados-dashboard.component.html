@@ -1,0 +1,187 @@
+<section *ngIf="!this._global.validarPermiso('VERDASH')">
+  <mat-card class="calidda-card aliados_card">
+    <mat-card-header> </mat-card-header>
+    <mat-card-content class="card-content aliados">
+      <div class="img_model">
+        <div class="dash_"></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>
+
+<section *ngIf="this._global.validarPermiso('VERDASH')">
+  <mat-card class="calidda-card aliados_card">
+    <mat-card-header> </mat-card-header>
+    <mat-card-content class="card-content aliados">
+      <div *ngIf="this.rol == 'Administrador Web'">
+        <button (click)="carrusel.activo = !carrusel.activo" class="desplega">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div [ngClass]="{ active: carrusel.activo, '': !carrusel.activo }" class="carrusel-aliados mat-elevation-z3">
+          <ul>
+            <li *ngFor="let item of dataLogos">
+              <a style="cursor:pointer;" (click)="cargarAliadoMes(item.aliadoComercialId)">
+                <img
+                  style="display: inline-block; max-height: 60px;max-width: 250px;margin-top: 10px;margin-right: 40px;"
+                  src="{{ item.base64Logo }}"
+                  alt=""
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="img_model">
+        <div class="dash_"></div>
+      </div>
+
+      <div class="content_aliados">
+        <h2>Nuestro aliado del mes:</h2>
+        <!-- <div class="img_aliado" [ngStyle]="{'background-image': 'url(/assets/img/' + imagen + ')'}"> -->
+        <div class="img_aliado">
+          <img src="{{ bestCommercialAllyLogo }}" alt="" />
+        </div>
+        <div class="data_aliado_dashboard container">
+          <div class="row mat-elevation-z3">
+            <div class="col">
+              <div>Productos vendidos</div>
+              <span>{{ cantidadProductos }}</span>
+            </div>
+            <div class="col">
+              <div>N° Financiamientos</div>
+              <span>{{ cantidadFinanciamientos }}</span>
+            </div>
+            <div class="col">
+              <div>Monto Financiado</div>
+              <span>S/. {{ montoTotalFinanciamiento }}</span>
+            </div>
+            <div class="col">
+              <div>Total Tiendas</div>
+              <span>{{ totalTiendas }}</span>
+            </div>
+            <div class="col">
+              <div>Porcentaje de Venta</div>
+              <span>{{ porcentajeVentas }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card id="divContentBarra" class="calidda-card" style="padding-bottom: 40px;">
+    <mat-card-content class="card-content ventas_aliados">
+      <div>
+        <div class="ventas_aliados_titulo">
+          <h2>Ventas</h2>
+          <ul class="d-flex">
+            <li *ngFor="let item of dataFechas; let i = index" [ngClass]="{ activo: i == this.indexDates }">
+              <a style="cursor:pointer;" (click)="filtrarDatosBarraFechas(item.value, i)">
+                <h2>{{ item.titulo1 }}</h2>
+              </a>
+              <span>{{ item.titulo2 }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6"></div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <div *ngIf="this._global.validarPermiso('VERFILCANVENDASH')">
+              <mat-form-field>
+                <mat-select
+                  placeholder="Canal"
+                  [(ngModel)]="selectedChannelA"
+                  (selectionChange)="filtrarDatosBarraCanales($event.value)"
+                >
+                  <mat-option *ngFor="let canal of canales" [value]="canal.value">
+                    {{ canal.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <button *ngIf="this._global.validarPermiso('EXPDASH')" id="fileBtn" (click)="downloadPDF(1)">
+              <i class="fas fa-file"></i>
+            </button>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <div><canvas id="chartdiv" style="width: 400px; height: 400px;"></canvas></div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card id="divContentDona" class="calidda-card" style="padding-bottom: 40px;">
+    <mat-card-content class="card-content detalle_ventas_aliados">
+      <div class="container">
+        <div class="row mb-4">
+          <div class="col-md-6"></div>
+          <div class="col-md-6 d-flex justify-content-end">
+            <div *ngIf="this._global.validarPermiso('VERFILCANVENDASH')">
+              <mat-form-field>
+                <mat-select placeholder="Canal" (selectionChange)="filtrarDatosDona($event.value)">
+                  <mat-option *ngFor="let canal of canales" [value]="canal.value">
+                    {{ canal.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <button *ngIf="this._global.validarPermiso('EXPDASH')" id="fileBtn" (click)="downloadPDF(2)">
+              <i class="fas fa-file"></i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <div class="row mb-4">
+            <div class="logo_aliado col-md-6">
+              <img src="{{ bestCommercialAllyLogo }}" alt="" />
+            </div>
+            <div class="col-md-6 text-right">
+              <div><canvas id="piediv" style="width: 400px; height: 400px;"></canvas></div>
+            </div>
+          </div>
+          <div class="row">
+            <mat-table class="table" [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="nombres">
+                <mat-header-cell *matHeaderCellDef class="thead-light"> Tienda </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.nombres }} </mat-cell>
+                <mat-footer-cell style="color:white" *matFooterCellDef> TOTAL </mat-footer-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="cantidadProductos">
+                <mat-header-cell *matHeaderCellDef class="thead-light"> Productos </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.cantidadProductos }} </mat-cell>
+                <mat-footer-cell style="color:white" *matFooterCellDef> {{ totalCantidadProductos }} </mat-footer-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="cantidadFinanciamientos">
+                <mat-header-cell *matHeaderCellDef class="thead-light"> Financiamiento </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.cantidadFinanciamientos }} </mat-cell>
+                <mat-footer-cell style="color:white" *matFooterCellDef>
+                  {{ totalCantidadFinanciamientos }}
+                </mat-footer-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="montoTotalFinanciamiento">
+                <mat-header-cell *matHeaderCellDef class="thead-light"> Monto Financiado </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.montoTotalFinanciamiento }} </mat-cell>
+                <mat-footer-cell style="color:white" *matFooterCellDef>
+                  {{ totalMontoTotalFinanciamiento }}
+                </mat-footer-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="datosColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: datosColumns"> </mat-row>
+              <mat-footer-row
+                style="background-color: #1e9fda;"
+                *matFooterRowDef="datosColumns; sticky: true"
+              ></mat-footer-row>
+            </mat-table>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

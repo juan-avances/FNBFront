@@ -1,0 +1,40 @@
+<div id="file-list">
+    <div class="file-header-items">
+    </div>
+    
+    <div class="file-body-items text-align-left mt-10">
+            <div *ngFor="let item of dataEntity.data" class="file-rows mt-10">
+                <ng-container *ngIf="item.idTipoArchivo==idTipoArchivo">
+
+                    <div *ngFor="let col of dataEntity.columnas; index as i" class="inline-block">
+                        <div *ngIf="!col.visible" [ngClass]="{'first-col-id': i === 0,'columns-col-id' : i > 0 }">
+                            {{item[col.field]}}
+                        </div>
+                    </div>
+                    <div *ngIf="dataEntity.customOperations" class="text-center float-right">
+                        <div class="btn-toolbar" role="toolbar" style="display: inline-block"
+                            aria-label="Toolbar with button groups">
+                            <!-- Acciones -->
+                            <div class="table-actions">
+                                <ng-container *ngFor="let customOperation of dataEntity.customOperations">
+                                    <div class="btn-group"
+                                        [ngClass]="{ 'not-active': !customOperation.visibilidity(item) }"
+                                        style="cursor: pointer" role="group">
+                                        <a [title]="customOperation.title" (click)="customOperation.click(item)">
+                                            <div
+                                                [ngClass]="{ 'fa_icon fa_gris': !customOperation.visibilidity(item) }">
+                                                <mat-icon>{{ customOperation.icon }}</mat-icon>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+
+ 
+    </div>
+</div>

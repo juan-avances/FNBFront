@@ -1,0 +1,152 @@
+::ng-deep .mat-dialog-content {
+    overflow-x: hidden !important;
+}
+
+.color-white{
+    color: white;
+}
+.mat-icon-mt-1px{
+    margin-top: 1px;
+    font-size: 20px;
+}
+.vertical-align-midle{
+    vertical-align: middle;
+}
+.mb-3px{
+    margin-bottom: 3px;
+}
+
+.mr-12px{
+    margin-right: 12px !important;
+}
+.bg-file-upload{
+    display: inline-block;
+    margin-right: 0px;
+    font-size: 13px;
+    border-radius: 4%;
+    margin-bottom: 0px;
+    background: #005aff;
+    padding: 0px 5px 0px 8px;
+    color: white;
+    width: auto;
+}
+.round-state-color{
+    border-radius: 50%;
+    width: 19px;
+    height: 19px;
+    float: left;
+    margin-right: 10px;
+}
+
+.btn-upload-file-right{
+    position: relative;
+    bottom: 6px;
+}
+
+hr{
+    background: black;
+}
+.bg-red{
+    background: rgb(255, 0, 0);
+}
+.bg-gray{
+    background: gray;
+}
+.bg-green{
+    background: rgb(0, 255, 127);
+}
+.upload-file-content {
+    .mat-card-title {
+        text-align: left;
+        font-weight: bold !important;
+        h3{
+            font-weight: bold;
+        }
+    }
+
+    .mat-card-mb-0{
+        margin-bottom: 0px !important;
+    }
+    .mat-card-mb-1{
+        margin-bottom: 1% !important;
+    }
+
+    .mat-card-mt-0{
+        margin-top: 0px !important;
+    }
+}
+
+
+::ng-deep table.mat-table th.mat-header-cell {
+    text-align: center;
+    font-weight: bold !important;
+}
+table.mat-table td.mat-cell {
+    text-align: center;
+    align-items: center;
+    color: black;
+}
+.table-footer-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.section {
+    flex: 1; 
+}
+.column-15 {
+    width: 12.5%;     
+    min-width: 12.5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.column-25 {
+    width: 22.5%;     
+    min-width: 22.5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.column-10 {
+    width: 2.5%;    
+    min-width: 2.5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.column-45 {
+    width: 25%;    
+    min-width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tableStyle {
+    width: 100%;
+}
+
+.disabled-button {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegúrate de que el contenedor tenga ancho completo */
+  }
+  
+  .titulo h3, .validacion h3 {
+    margin: 10; /* Elimina los márgenes predeterminados de h3 */
+    display: inline-block; /* Si es necesario para tus estilos */
+  }
+  
+  /* Asegúrate de que los iconos estén alineados con los h3 si es necesario */
+  .titulo mat-icon, .validacion mat-icon {
+    vertical-align: middle;
+  }
+  

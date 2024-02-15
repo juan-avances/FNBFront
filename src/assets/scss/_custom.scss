@@ -1,0 +1,350 @@
+.go_financia {
+  text-align: center;
+  a {
+    cursor: pointer;
+  }
+}
+
+.expansion_panel {
+  &.mat-expansion-panel {
+    margin-bottom: 30px;
+    .mat-tab-label {
+      opacity: 1;
+    }
+    .mat-ink-bar {
+      background-color: #1e9fda;
+      height: 4px;
+    }
+    h2 {
+      font-size: 20px;
+      border-left: 4px solid #1e9fda;
+      padding-left: 10px;
+    }
+    .example-tab-icon {
+      color: #1e9fda;
+      margin-right: 10px;
+    }
+  }
+}
+
+.inner_content {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0;
+  .inputs_inline {
+    width: 100%;
+    display: flex;
+    & > div {
+      flex: 1;
+      .mat-form-field {
+        width: 100%;
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+    }
+  }
+  .mat-radio-group {
+    margin-left: 20px;
+  }
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+  & > .mat-form-field {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .inputs_column {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    & > div {
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+  }
+  .spacev_30 {
+    margin: 30px 0;
+    margin-left: 30px;
+  }
+}
+
+.form_footer {
+  .form_buttons {
+    .buttons_actions {
+      text-align: center;
+      margin-bottom: 30px;
+      button {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+.mat-checkbox-checked.mat-primary .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background {
+  background-color: $azul;
+}
+
+.checkRoles {
+  display: flex;
+  flex-direction: column;
+  margin-top: -15px !important;
+  h4 {
+    margin-bottom: 15px;
+  }
+}
+
+.center_button {
+  text-align: center;
+  cursor: pointer;
+}
+
+.campana {
+  position: absolute;
+  top: 16px;
+  left: 505px;
+  color: white;
+  font-size: 40px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.campana svg {
+  font-size: 26px;
+}
+
+#notif-container:before {
+  content: ' ';
+  display: block;
+  width: 0;
+  height: 0;
+  border-right: 8px solid transparent;
+  border-top: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-bottom: 8px solid rgba(30, 159, 218, 0.4);
+  position: absolute;
+  top: 56px;
+  left: 764px;
+  z-index: 99999;
+}
+
+.icon-notif {
+  position: absolute;
+  width: 32px;
+  top: 74px;
+  left: 400px;
+  z-index: 999999;
+}
+
+.icon-notif img {
+  max-width: 100%;
+}
+
+#tipoTelefono {
+  width: 26%;
+  margin-right: 4%;
+}
+
+#tipoTelefonoOp {
+  width: 26%;
+  margin-right: 4%;
+}
+
+#nroTelefono {
+  width: 65%;
+}
+
+#nroTelefonoOp {
+  width: 65%;
+}
+
+#prefijonro {
+  width: 5%;
+}
+
+.desplega {
+  position: absolute;
+  top: 0;
+  right: -30px;
+  width: 30px;
+  height: 80px;
+  background: #1e9fda;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  color: white;
+  border: none;
+  padding: 0;
+  margin: 0;
+  z-index: 20;
+}
+
+.carrusel-aliados {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: white;
+  width: 0;
+  height: 80px;
+  z-index: 10;
+  transition: all 1s ease;
+}
+
+.carrusel-aliados.active {
+  width: 100%;
+}
+
+.carrusel-aliados ul,
+.carrusel-aliados button {
+  display: none;
+  transition: all 1s ease;
+}
+
+.carrusel-aliados.active ul,
+.carrusel-aliados.active button {
+  display: flex;
+  justify-content: center;
+}
+
+.carrusel-aliados button {
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  border: none;
+  background: white;
+}
+
+.carrusel-aliados .arrow-left {
+  left: 0;
+}
+
+.carrusel-aliados .arrow-right {
+  right: 0;
+}
+
+.flechaVentas {
+  border: none;
+  background: white;
+  font-size: 30px;
+  color: #1e9fda;
+}
+
+#fileBtn {
+  background: transparent;
+  margin-left: 20px;
+  border: 0;
+  color: #1e9fda;
+  font-size: 26px;
+}
+
+// PAGING GRID COMPONENT
+.opacity3 {
+  opacity: 0.3;
+}
+
+// .erTable .ui-table .ui-table-tbody>tr>td{
+//     padding: .25em;
+//     word-break: break-word;
+// }
+.erTable .ui-table table {
+  table-layout: auto;
+  .ui-table-tbody > tr > td {
+    border: 1px solid #ccc;
+    padding: 5.6px 10px;
+  }
+}
+.erTable .ui-table-wrapper {
+  overflow: hidden;
+  .table-actions {
+    display: flex;
+  }
+  @media screen and (max-width: 1320px) {
+    .table-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Dialog Financiamiento
+.modalidadEntregaDialog {
+  .mat-card {
+    margin: 0 !important;
+    padding: 10px;
+    .er-form {
+      width: 100%;
+      .er-full-width {
+        width: 100%;
+      }
+      .mat-radio-button {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+.swal-height {
+
+  width: 38%;
+}
+p-panelmenu {
+  .ui-panelmenu-panel {
+    overflow: hidden;
+    box-shadow: 0 3px 1px -2px rgba(154, 153, 153, 0.2), 0 2px 2px 0 rgba(181, 179, 179, 0.14),
+      0 1px 5px 0 rgba(187, 186, 186, 0.12);
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    a.ui-panelmenu-header-link {
+      height: 48px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      .ui-panelmenu-icon {
+        position: absolute;
+        right: 12px;
+      }
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
+    }
+    &:first-child {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .inputs_inline {
+    flex-direction: column;
+  }
+}
+
+//material table
+.ewTable.mat-table {
+  width: 100%;
+  background: #fff;
+  .mat-header-cell {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 24px;
+    background: #dad9dd;
+    border: 1px solid #cccccc;
+    color: black;
+  }
+  .mat-cell {
+    padding: 12px 24px;
+    border: 1px solid #ccc;
+    height: 0;
+  }
+  .mat-row:nth-child(even) {
+    background-color: #dad9dd;
+  }
+  .mat-row:nth-child(odd) {
+    background-color: $blanco;
+  }
+}

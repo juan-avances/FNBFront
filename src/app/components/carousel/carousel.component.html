@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="carousel mat-elevation-z3" [ngClass]="{ active: visible }">
+    <div class="navigator-button" (click)="onLeft()">
+      <mat-icon class="mat-icon carousel-icon">keyboard_arrow_left</mat-icon>
+    </div>
+    <ul>
+      <li style="float: left;" *ngFor="let card of shownCardList" (click)="cardSelected(card)">
+        <a style="cursor:pointer;">
+          <img src="{{ card.base64Logo }}" alt="" />
+        </a>
+      </li>
+    </ul>
+    <div class="navigator-button" (click)="onRight()">
+      <mat-icon class="mat-icon carousel-icon">keyboard_arrow_right</mat-icon>
+    </div>
+  </div>
+  <div class="toggle-button" (click)="visible = !visible">
+    <mat-icon class="mat-icon carousel-icon">reorder</mat-icon>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="cambio_clave">
+  <h2 mat-dialog-title>
+    Reenviar financiamiento: <strong>{{ data.nroPedidoVenta }} a SAP </strong>
+  </h2>
+  <form [formGroup]="formGroup" class="material-form form-validate">
+      <label class="row">¿El pedido de venta existe en SAP?</label>
+      <mat-radio-group aria-label="Select an option" formControlName="existeEnSap">
+        <mat-radio-button value="S">Si</mat-radio-button> &nbsp;
+        <mat-radio-button value="N">No</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field *ngIf="isSendSap">
+        <input matInput formControlName="nroPedido" placeholder="Ingrese el numero de pedido de venta" required />
+      </mat-form-field>
+      
+  </form>
+  <div class="dialog_buttons">
+    <button type="submit" (click)="send()" mat-raised-button color="btnCeleste">
+      
+      Enviar
+    </button>
+    <button (click)="modalReference.close()" mat-raised-button color="btnGris">Cancelar</button>
+  </div>
+</div>

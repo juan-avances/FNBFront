@@ -1,0 +1,86 @@
+#sidebar{
+    background: $bg_sidebar;
+    .mat-card{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0;
+        .sidebar_content{
+            text-align: center;
+            padding-top: 20px;
+            .sidebar_logo{
+                width: 200px;
+                display: block;
+                .logo_{
+                    &::before{
+                        content: url('assets/img/logo_calidda_vertical.svg');
+                    }
+                }
+                margin: 0 auto;
+            }
+            ._dash_init{
+                margin-top: 20px;
+                .mat-button-wrapper{
+                    font-size: 17px;
+                    svg{
+                        font-size: 20px;
+                        margin-top: -3px;
+                    }
+                }
+            }
+        }
+        .sidebar_menu{
+            margin-top: 20px;
+            .mat-expansion-panel-spacing{
+                margin: 1px 0;
+            }
+            .mat-expansion-panel-body{
+                padding: 0;
+                .mat-card{
+                    height: auto;
+                    font-size: 16px;
+                    a{
+                        text-decoration: none;
+                        .mat-list-item{
+                            font-size: 15px;
+                            .mat-list-item-content{
+                                padding-left: 54px;
+                            }
+                            &:hover{
+                                background: $bg_body;
+                                font-weight: bold;
+                            }
+                        }
+                        &.active{
+                            .mat-list-item{
+                                background: $bg_body;
+                                font-weight: bold;
+                            }
+                        }                       
+                    }
+                }
+            }
+        }
+    }
+}
+
+.sidebar_menu{
+    .ui-panelmenu-panel{
+        .ui-state-active{
+            border-left: 4px solid $azul;
+        }
+    }
+}
+
+._dash_init{
+    .mat-btnAzul{
+        .mat-icon{
+            margin-top: -5px;
+        }
+    }
+}
+
+.ui-panelmenu .ui-panelmenu-content .ui-menuitem .ui-menuitem-link {
+    padding: 0.714em 0.857em;
+    color: #333333;
+}

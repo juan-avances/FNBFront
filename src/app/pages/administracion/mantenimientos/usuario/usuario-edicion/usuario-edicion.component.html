@@ -1,0 +1,114 @@
+<mat-card class="calidda-card">
+    <mat-card-header>
+        <mat-card-title>
+            <h2>Usuario</h2>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+        <form [formGroup]="forma" *ngIf="forma">
+            <section class="form_material">
+                <div class="form_inputs top_align">
+                    <div>
+                        <mat-form-field>
+                            <mat-select required matInput placeholder="Rol" formControlName="rolId" (selectionChange)="rolChange($event)">
+                                <mat-option *ngFor="let rolActual of usuarioActual.roles" [value]="rolActual.value">
+                                    {{ rolActual.label }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form_inputs middle_align">
+                    <div>
+                        <mat-form-field *ngIf="rolControl.value != 1 && rolControl.value != 8 && rolControl.value != 9 && rolControl.value != 10 && rolControl.value != 7">
+                            <mat-select matInput placeholder="Buscar Aliado Comercial" formControlName="aliadoComercialId" [disabled]="disabledAliadoComercial" [value]="aliadoComercialId" (selectionChange)="aliadoChange($event)">
+                                <mat-option *ngFor="let option of usuarioActual.aliadosComerciales" [value]="option.value">
+                                    {{ option.label }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field *ngIf="rolControl.value != 1 && rolControl.value != 8 && rolControl.value != 9 && rolControl.value != 10 && rolControl.value != 2 && rolControl.value != 7">
+                            <mat-select matInput placeholder="Buscar Sede" formControlName="sedeId">
+                                <mat-option>Seleccionar</mat-option>
+                                <mat-option *ngFor="let option of usuarioActual.sedes" [value]="option.value">
+                                    {{ option.label }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form_inputs middle_align">
+                    <div>
+                        <mat-form-field>
+                            <input required type="text" matInput placeholder="Nombre(s)" maxlength="40" formControlName="nombres" />
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input required type="text" matInput placeholder="Apellido(s)" maxlength="40" formControlName="apellidos" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form_inputs middle_align">
+                    <div>
+                        <mat-form-field>
+                            <input required type="text" matInput placeholder="Usuario" formControlName="userName" maxlength="30" />
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input readonly  [type]="showPassword ? 'text' : 'password'" matInput placeholder="Contraseña" formControlName="password" />
+                            <!-- <mat-icon matSuffix (click)="showPassword = !showPassword">
+                                {{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon> -->
+                            <mat-error *ngIf="forma.get('password').invalid">
+                                <p>Minimo 8 caracteres.</p>
+                                <p>Contraseña insegura</p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div> 
+                </div>
+                <div class="form_inputs middle_align">
+                    <div>
+                        <mat-form-field>
+                            <input type="email" matInput placeholder="Correo" maxlength="150" formControlName="correo" 
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form_inputs bottom_align">
+                    <div>
+                        <mat-form-field>
+                            <mat-select matInput placeholder="Tipo de Documento" (selectionChange)="changeTipoDocumento($event.value)" formControlName="tipoDocumento">
+                                <mat-option *ngFor="let tipo of usuarioActual.tiposDocumento" [value]="tipo.value">
+                                    {{ tipo.label }}
+                                </mat-option>
+                                
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <mat-form-field>
+                            <input type="text" matInput placeholder="N° Documento" maxlength="{{ this._usuarioEdicionServicio.maxlengthNroDocumento }}" onlyNumber formControlName="nroDocumento" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="form_buttons">
+                    <div class="buttons_actions">
+                        <button *ngIf="!usuarioActual.interno" type="submit" (click)="onSubmit()" id="submit" [disabled]="!forma.valid" mat-raised-button color="btnCeleste">
+                            <mat-icon>save</mat-icon> Guardar
+                        </button>
+                        <button *ngIf="isEdit && !usuarioActual.interno" (click)="restoredPassword()" mat-raised-button color="btnCeleste">
+                            <mat-icon>key</mat-icon> Generar Contraseña
+                        </button>
+                        <button id="cancel" (click)="cancelar()" mat-raised-button color="btnGris">
+                            <mat-icon>block</mat-icon> Cancelar
+                        </button>
+                        
+                    </div>
+                </div>
+            </section>
+        </form>
+    </mat-card-content>
+</mat-card>

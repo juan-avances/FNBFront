@@ -1,0 +1,174 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Sede Aliada</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material my-4">
+        <div class="form_inputs">
+          <div class="my-0">
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="Tienda Aliada"
+                formControlName="tiendaAliada"
+                [matAutocomplete]="auto"
+                required
+              />
+              <mat-error><p *ngIf="formGroup.get('tiendaAliada').hasError('required')">Debe ingresar Tienda Aliada.</p></mat-error>
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                [displayWith]="displayFn"
+                (optionSelected)="setTiendaAliadaId()"
+              >
+                <mat-option *ngFor="let tiendaAliada of storeAllyListFiltered | async" [value]="tiendaAliada">
+                  {{ tiendaAliada.nombre }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="my-0">
+            <mat-form-field>
+              <input type="text" required onlyNumber matInput placeholder="Código" formControlName="codigo" maxlength="10" />
+              <mat-error>
+                <p *ngIf="formGroup.get('codigo').hasError('required')">Debe ingresar código.</p>
+                <p *ngIf="formGroup.get('codigo').hasError('minlength')">Debe contener 10 caracteres.</p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs">
+          <div class="my-0">
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Nombre"
+                letterNumberSign
+                formControlName="nombre"
+                maxlength="100"
+                required
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('nombre').hasError('required')">Debe ingresar nombre.</p>
+                <p *ngIf="formGroup.get('nombre').hasError('minlength')">Debe contener entre 3 a 100 caracteres.</p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="my-0">
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Dirección"
+                onlyAddressStreet
+                formControlName="direccion"
+                maxlength="100"
+                required
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('direccion').hasError('required')">Debe ingresar dirección.</p>
+                <p *ngIf="formGroup.get('direccion').hasError('minlength')">Debe contener entre 1 a 100 caracteres.</p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs">
+          <div class="my-0">
+            <mat-form-field class="er-full-width">
+              <mat-select
+                (selectionChange)="ChangeDepartamento($event)"
+                placeholder="Departamento"
+                formControlName="departamentoId"
+                matInput
+                required
+              >
+                <mat-option>-- Seleccione --</mat-option>
+                <mat-option *ngFor="let departamento of departamentos" [value]="departamento.departamentoId">
+                  {{ departamento.departamento }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="deparmentValidate">Debe seleccionar un departamento.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="my-0">
+            <mat-form-field class="er-full-width">
+              <mat-select
+                (selectionChange)="ChangeProvincia($event)"
+                placeholder="Provincia"
+                formControlName="provinciaId"
+                matInput
+                required
+              >
+                <mat-option >-- Seleccione --</mat-option>
+                <mat-option *ngFor="let provincia of provincias" [value]="provincia.provinciaId">{{
+                  provincia.provincia
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="provinciaValidate">Debe seleccionar una provincia.</mat-error>
+            </mat-form-field>
+          </div>         
+        </div>
+        <div class="form_inputs">
+          <div class="my-0">
+            <mat-form-field class="er-full-width">
+              <mat-select 
+              (selectionChange)="ChangeDistrito($event)"
+              placeholder="Distrito" formControlName="distritoId" 
+               matInput
+               required
+              >
+                <mat-option>-- Seleccione --</mat-option>
+                <mat-option *ngFor="let distrito of distritos" [value]="distrito.id">{{
+                  distrito.distrito
+                }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="distritoValidate">Debe seleccionar un distrito.</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="my-0">
+            <mat-form-field>
+              <input type="number" 
+               matInput placeholder="Latitud" onlyAddressStreet formControlName="latitud" required/>
+              <mat-error><p *ngIf="formGroup.get('latitud').hasError('required')">Debe ingresar latitud.</p></mat-error>
+              <mat-error><p *ngIf="formGroup.get('latitud').hasError('min')">Debe ingresar latitud de -90° a 90° grados de rango.</p></mat-error>
+              <mat-error><p *ngIf="formGroup.get('latitud').hasError('max')">Debe ingresar latitud de -90° a 90° grados de rango.</p></mat-error>
+            </mat-form-field>
+          </div>     
+        </div>
+        <div class="form_inputs">
+          <div class="my-0">
+            <mat-form-field>
+              <input type="number" matInput placeholder="Longitud" onlyAddressStreet formControlName="longitud" required/>
+              <mat-error>
+                <p *ngIf="formGroup.get('longitud').hasError('required')">Debe ingresar longitud.</p>
+              </mat-error>
+              <mat-error><p *ngIf="formGroup.get('longitud').hasError('min')">Debe ingresar latitud de -90° a 90° grados de rango.</p></mat-error>
+              <mat-error><p *ngIf="formGroup.get('longitud').hasError('max')">Debe ingresar latitud de -90° a 90° grados de rango.</p></mat-error>
+            </mat-form-field>
+          </div>
+          <div>&nbsp;</div>          
+        </div>
+
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              type="submit"
+              (click)="save()"
+              id="submit"
+              [disabled]="!formGroup.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button (click)="cancel()" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

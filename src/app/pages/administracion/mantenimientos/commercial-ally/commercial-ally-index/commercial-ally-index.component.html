@@ -1,0 +1,88 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Aliado Comercial</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <input [type]="'text'" formControlName="businessName" matInput placeholder="Nombre Comercial"
+                (change)="search('businessName')" letterNumberSign maxlength="100" />
+              <mat-error>
+                <p *ngIf="formGroup.get('businessName').hasError('minlength')">
+                  Debe contener entre 3 a 100 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('businessName').invalid">
+                  Caracteres no permitidos.
+                </p>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select [value]="estado" (selectionChange)="dt.filter($event.value, 'estado', 'equals')" matInput
+                id="estado" name="estado" placeholder="Estado" formControlName="estado">
+                <mat-option>TODOS</mat-option>
+                <mat-option [value]="1">ACTIVOS</mat-option>
+                <mat-option [value]="0">INACTIVOS</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input [type]="'text'" formControlName="ruc" onlyNumber maxlength="11" matInput placeholder="Ruc"
+                (change)="search('ruc')" />
+              <mat-error>
+                <p *ngIf="formGroup.get('ruc').hasError('minlength')">
+                  Debe contener 11 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('ruc').invalid">
+                  Caracteres permitidos solo números.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <div class="other_buttons">
+      <div class="buttons_">
+        <div class="right">
+
+          <a [routerLink]="['/commercial-ally-form']">
+            <button mat-raised-button color="btnCeleste" class="m-1"><em
+                class="material-icons-outlined">
+                add_circle_outline
+              </em> Nuevo</button></a>
+
+
+
+          <div *ngIf="this.activeButtonOrderByInformation">
+            <button mat-button color="btnCeleste" class="m-1"
+             (click)="orderByInformationReciente()">Agregados
+              recientemente</button>
+          </div>
+
+
+
+          <div *ngIf="!this.activeButtonOrderByInformation">
+            <button mat-button color="btnCeleste" 
+            class="m-1" (click)="orderByInformation()">A - Z</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="content_material">
+      <app-paging-grid #dt [dataEntity]="dataEntity" (paginationLoad)="loadLazy($event)"
+        (updateState)="updateState($event)"></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

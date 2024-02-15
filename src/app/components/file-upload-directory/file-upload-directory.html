@@ -1,0 +1,27 @@
+ 
+<label for="fileUpload" class="m-1 mat-raised-button mat-button-base mat-btnCeleste">
+  <span>Carga masiva</span>
+  <input id="fileUpload" type="file"  #fileInput (change)="uploadFiles(fileInput.files)" webkitdirectory multiple hidden  />
+
+</label>
+<div style="width: 80%; margin-top: 30px;display:none;">
+  <table style="width: 100%" *ngIf="uploadedFiles?.length; else noFiles">
+    <thead>
+      <tr>
+        <th>File name</th>
+        <th>Folder</th>
+        <th>Id Folder</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr style="text-align: center" *ngFor="let file of uploadedFiles">
+        <th>{{ file?.fileName }}</th>
+        <td>{{ file?.folder }}</td>
+        <td>{{ file?.folderId }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #noFiles> No files </ng-template>
+</div>

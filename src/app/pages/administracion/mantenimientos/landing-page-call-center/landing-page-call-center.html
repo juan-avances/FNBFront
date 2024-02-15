@@ -1,0 +1,134 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Landing Page Call Center</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content" style="height: 60vh;">
+    <mat-tab-group>
+      <mat-tab label="Categoría">
+        <h2 style="font-weight: bold; display: block;font-size: 25px; " class="my-5">CATEGORÍA</h2>
+        <div class="row  " style="margin: 0 !important; margin-top: 4rem ; ">
+          <div class="col-md-6" style="margin: 0!important;padding: 0!important;">
+
+            <div>
+              <div class="border border-dark p-5 mx-5">
+                <mat-form-field style="width: 25rem;" appearance="outline">
+                  <mat-select placeholder="Categoría" [(ngModel)]="selectedValue" (selectionChange)="sortByCategory($event.value)" name="estado">
+                    <mat-option *ngFor="let opcion of states" [value]="opcion">
+                      {{opcion.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+
+            </div>
+
+          </div>
+          <div class="col-md-6" style="margin: 0 !important;padding: 0 !important">
+            <form [formGroup]="formGroup" class="border border-dark p-5">
+              <button mat-raised-button color="btnCeleste"  (click)="Limpiar()"><em class="material-icons-outlined">
+                  add_circle_outline
+                </em> Nuevo</button> <br>
+              <div class="my-3">
+                <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+              </div>
+
+              <br>
+              <mat-form-field style="width: 25rem;" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Ingrese Nombre" formControlName="nombre">
+                <mat-error>
+                  <p *ngIf="formGroup.get('nombre').hasError('required')">Debe ingresar nombre.</p>
+                </mat-error>
+              </mat-form-field>
+
+
+              <br>
+            
+
+              <button *ngIf="!auxCategoria" mat-raised-button color="btnCeleste" 
+                (click)="guardarCategoria()">
+                <mat-icon>save</mat-icon> Guardar
+              </button>
+              <button *ngIf="auxCategoria"  mat-raised-button color="btnCeleste" [disabled]="formGroup.get('nombre').hasError('required')"
+              (click)="editarCategoria()">
+              <mat-icon>save</mat-icon> Editar
+            </button>
+
+              
+              <button id="cancel" mat-raised-button color="btnGris"  (click)="Cancelar()" ><mat-icon>block</mat-icon> Cancelar</button>
+
+            </form>
+
+          </div>
+        </div>
+
+      </mat-tab>
+      <mat-tab label="Correo">
+
+        <h2 style="font-weight: bold; font-size: 25px; display: block" class="my-5">Correos</h2>
+        <form [formGroup]="formGroup1" class="border border-dark p-5" style="width: 50rem;">
+          <label for="correos">Correo Envió (separado por coma) :</label><br>
+          <mat-form-field style="width: 25rem;" appearance="outline" id="correos">
+            <mat-label>Correo</mat-label>
+            <textarea matInput placeholder="Textarea" formControlName="correos"></textarea>
+          </mat-form-field><br>
+
+        
+
+         
+          <button   class="btn btn-secondary" type="button" (click)="actualizarCorreo()" >
+            Actualizar
+          </button>
+        </form>
+
+      </mat-tab>
+      <mat-tab label="Banner">
+
+        <h2 style="font-weight: bold; font-size: 25px; display: block" class="my-5">Banner</h2>
+        <form [formGroup]="formGroup2" class="border border-dark p-5" style="width: 50rem;">
+          <label for="correo1s">Actualizar Banner :</label><br>
+  
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Actualizar Banner :</mat-label>
+              <ngx-mat-file-input
+                formControlName="imagePath"
+                accept="image/*"
+                (change)="handleFileInput($event)"
+                placeholder="Escoge un logo."
+              ></ngx-mat-file-input>
+                <!-- (change)="previewImage($event)"-->
+             <mat-icon matSuffix>folder</mat-icon>
+            </mat-form-field>
+            <mat-error *ngIf="false">
+              <!-- formGroup.get('base64Logo').hasError('required') -->
+              <p>Debes escoger una imagen.</p>
+            </mat-error>
+          </div>
+            <div class=" form_inputs middle_align">
+              <div>
+                <img  height="200"  [src]="formGroup2.get('base64Logo').value"
+                *ngIf="formGroup2.get('base64Logo').value" />
+              
+              </div>
+            </div>
+          <br>
+
+  
+          <button class="btn btn-primary" type="button" (click)="actualizarImagen()"><em
+              class="material-icons-outlined">
+              edit
+            </em>Editar </button>
+       
+      
+        </form>
+
+      </mat-tab>
+
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

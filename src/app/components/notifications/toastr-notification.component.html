@@ -1,0 +1,15 @@
+<div id="notif-container" *ngIf="notifications.length > 0">
+  <div class="icon-notif">
+    <img src="/WebFNB/assets/img/alerta.png" alt="" />
+  </div>
+  <ul id="toast-container" class="toast-top-right">
+    <li
+      *ngFor="let item of notifications"
+      class="toast {{ cssClass(item) }}"
+      aria-live="polite"
+      style="display: block;"
+    >
+      <a href="/WebFNB/{{ item.url }}">{{ item.mensaje }}</a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,204 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Consulta Motorizado</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <section class="form_material">
+      <div class="alert alert-primary" role="alert">
+        Estimado usuario, asegure que el cliente y el DNI correspondan a la persona que le entregarás el producto
+      </div>
+
+      <form class="form_inputs" #f="ngForm" (ngSubmit)="onSearch(f)">
+        <div>
+          <mat-form-field>
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select (selectionChange)="changeTipoBusqueda($event)" name="tipoBusqueda" ngModel
+              placeholder="Tipo Documento" required #searchImput="ngModel">
+              <mat-option *ngFor="let tipo of listaTipoBusqueda" value="{{ tipo }}">{{ tipo }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="searchImput.hasError('required')">El tipo de documento es obligatorio</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Buscar por Documento</mat-label>
+            <input type="text" name="documento" matInput ngModel placeholder="Ingrese Documento" required
+              #searchImput="ngModel" maxlength="{{ lenghtValidacion }}" pattern="{{ tipoValidacion }}"
+              ng-pattern-restrict />
+            <!-- <mat-error *ngIf="searchImput.hasError('required')">Documento obligatorio</mat-error>
+                      <mat-error *ngIf="!searchImput.hasError('required')">Ingrese Documento Correcto</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="center_mov">
+          <button type="submit" mat-raised-button color="btnCeleste_l" [disabled]="f.invalid">
+            <mat-icon>search</mat-icon>Buscar
+          </button>
+        </div>
+      </form>
+
+    </section>
+  </mat-card-content>
+
+  <mat-card class="calidda-card" *ngIf="busquedaValida">
+    <mat-card-content class="card-content">
+      <div class="row">
+
+        <div class="col-6 col-lg-9">
+          <strong>Cliente:</strong>
+          <div class="mt-2">
+            {{respuestaClienteRecepcion.documentoCliente}} - {{respuestaClienteRecepcion.nombreCliente}}
+          </div>
+        </div>
+        <div class="col-6 col-lg-3 text-right">
+          <button type="button" mat-raised-button color="btnCeleste_l" *ngIf="!validarCliente"
+            (click)="validar(respuestaClienteRecepcion.documentoCliente)">
+            <mat-icon>done</mat-icon>Validar
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3" *ngIf="validarCliente">  
+        <section class=" form_material col-lg-12 col-12">
+          <div class="form_inputs">
+            <div class="m-0">
+              <div class="content_flex">
+                <div >
+                  <div class="bg">Fecha nacimiento</div>
+                  <div>{{ cliente.fechaNacimiento | date:'dd/MM/yyyy' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th style="background: #efefef;
+                padding: 10px;
+                border: 1px solid #a6a6a6;">
+                  Firma
+                </th>
+                <th style="background: #efefef;
+                padding: 10px;
+                border: 1px solid #a6a6a6;">
+                  Foto
+                </th>
+              </tr>
+            </thead >
+            <tbody>
+              <tr>
+                <td class="text-center">
+                  <img [src]="firmab64" style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 148px;
+                  height: 184px;">
+                </td>
+                <td class="text-center">
+                  <img [src]="photob64" style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 148px;
+                  height: 184px;">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <div class="col-12">
+          <button type="button" mat-raised-button color="btnCeleste_l" class="w-100"
+            (click)="registarrValidacion()" [disabled]="validacionRegistrada">
+            <mat-icon>check_circle</mat-icon>{{!validacionRegistrada ? 'Registrar validación' : 'Validación registrada'}}
+          </button>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calidda-card" *ngIf="recepcionaOtraPersona">
+    <mat-card-content class="card-content">
+      <div class="row">
+        <div class="col-6 col-lg-9">
+          <strong>Persona Recepciona:</strong>
+          <div class="mt-2">
+            {{respuestaClienteRecepcion.documentoPersonaRecepciona}} - {{respuestaClienteRecepcion.nombrePersonaRecepciona}}
+          </div>
+        </div>
+        <div class="col-6 col-lg-3 text-right">
+          <button type="button" mat-raised-button color="btnCeleste_l" *ngIf="!validaPersonaRecepciona"
+            (click)="validarPersonaRecepciona(respuestaClienteRecepcion.documentoPersonaRecepciona)">
+            <mat-icon>done</mat-icon>Validar
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3" *ngIf="validaPersonaRecepciona">
+        <section class=" form_material col-lg-12 col-12">
+          <div class="form_inputs">
+            <div class="m-0">
+              <div class="content_flex">
+                <div >
+                  <div class="bg">Fecha nacimiento</div>
+                  <div>{{ personaRecepciona.fechaNacimiento | date:'dd/MM/yyyy' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th style="background: #efefef;
+                padding: 10px;
+                border: 1px solid #a6a6a6;">
+                  Firma
+                </th>
+                <th style="background: #efefef;
+                padding: 10px;
+                border: 1px solid #a6a6a6;">
+                  Foto
+                </th>
+              </tr>
+            </thead >
+            <tbody>
+              <tr>
+                <td class="text-center">
+                  <img [src]="firmab64PersonaRecepciona" style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 148px;
+                  height: 184px;">
+                </td>
+                <td class="text-center">
+                  <img [src]="photob64PersonaRecepciona" style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 148px;
+                  height: 184px;">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <div class="col-12">
+          <button type="button" mat-raised-button color="btnCeleste_l" class="w-100"
+            (click)="registarrValidacion(false)" [disabled]="validacionRegistrada">
+            <mat-icon>check_circle</mat-icon>{{!validacionRegistrada ? 'Registrar validación' : 'Validación registrada'}}
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="col-12" *ngIf="isFallecido || isFallecidoReceptor" style="background-color: red; color: white;">Persona validada figura como fallecido</mat-card>
+</mat-card>

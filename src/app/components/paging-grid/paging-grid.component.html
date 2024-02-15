@@ -1,0 +1,121 @@
+<p-table
+  #dt
+  [columns]="visibleColumns"
+  [value]="dataEntity.data"
+  selectionMode="single"
+  [lazy]="true"
+  [paginator]="true"
+  [rows]="10"
+  [totalRecords]="dataEntity.totalRegistros"
+  sortField="Id"
+  (onLazyLoad)="lazyLoad($event)"
+  [first]="0"
+  [responsive]="true"
+  class="table-striped erTable"
+>
+  <ng-template pTemplate="colgroup" let-columns>
+    <colgroup>
+      <col [style.width]="5 + '%'" *ngIf="dataEntity.options ? dataEntity.options.showIndex : true" />
+      <col *ngFor="let col of columns" [style.width]="col.width + '%'" />
+      <col [style.width]="9 + '%'" *ngIf="dataEntity.options ? dataEntity.options.showChangeState : true" />
+      <col *ngIf="dataEntity.customOperations"
+        [style.width]="
+          (dataEntity.options && dataEntity.options.accionesWidth ? dataEntity.options.accionesWidth : 10) + '%'
+        "
+      />
+    </colgroup>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr class="small table_th">
+      <th *ngIf="dataEntity.options ? dataEntity.options.showIndex : true">Nº</th>
+      <ng-container *ngFor="let col of columns">
+        <th *ngIf="col.order == null || col.order" [pSortableColumn]="col.field">
+          {{ col.header }}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+        <th *ngIf="col.order != null && !col.order">
+          {{ col.header }}
+        </th>
+      </ng-container>
+      <th *ngIf="dataEntity.options ? dataEntity.options.showStateColor : true">Estado Color</th>
+      <th *ngIf="dataEntity.options ? dataEntity.options.documento: true">Documentos Disponibles</th>
+      <th *ngIf="dataEntity.options ? dataEntity.options.showChangeState : true">Estado</th>
+      <th *ngIf="dataEntity.customOperations">Acciones</th>
+    </tr>
+
+  </ng-template>
+
+  <ng-template pTemplate="body" let-index="rowIndex" let-columns="columns" let-entidad>
+    <tr class="small">
+      <td class="text-center" *ngIf="dataEntity.options ? dataEntity.options.showIndex : true">{{ index + 1 }}</td>
+      <td *ngFor="let col of columns">{{ entidad[col.field] }}</td>
+      <td *ngIf="dataEntity.options ? dataEntity.options.showStateColor : true">
+        <div class="round-state-color" [style.background]="getCssColor(entidad.estado)"></div>
+      </td>
+
+      <td *ngIf="dataEntity.options ? dataEntity.options.documento : true">
+        <div class="round-state-color" [style.background]="getCssColorDoc(entidad.estadoArchivo)"></div>
+      </td>
+
+
+      <td *ngIf="dataEntity.options ? dataEntity.options.showChangeState : true">
+        <div class="switch">
+          <input
+            id="cmn-toggle-{{ entidad.id }}"
+            class="cmn-toggle cmn-toggle-round-flat"
+            [checked]="entidad.activo"
+            (change)="changeState(entidad.id, !entidad.activo)"
+            type="checkbox"
+
+          />
+          <label for="cmn-toggle-{{ entidad.id }}"></label>
+        </div>
+      </td>
+      <td *ngIf="dataEntity.customOperations" class="text-center">
+        <div class="btn-toolbar" role="toolbar" style="display: inline-block" aria-label="Toolbar with button groups">
+          <!-- Acciones -->
+          <div class="table-actions">
+            <ng-container *ngFor="let customOperation of dataEntity.customOperations">
+              <div
+                class="btn-group"
+                [ngClass]="{ 'not-active': !customOperation.visibilidity(entidad) }"
+                style="cursor: pointer"
+                role="group"
+              >
+                <a [title]="customOperation.title" (click)="customOperation.click(entidad)">
+                  <div [ngClass]="{ 'fa_icon fa_gris': !customOperation.visibilidity(entidad) }">
+                    <mat-icon>{{ customOperation.icon }}</mat-icon>
+                  </div>
+                </a>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td
+        [attr.colspan]="
+          visibleColumns.length + 1 +
+          (dataEntity.options && dataEntity.options.showChangeState ? 1 : 0) +
+          (dataEntity.options &&
+          (dataEntity.options.showDelete || dataEntity.options.showEdit || dataEntity.customOperations)
+            ? 1
+            : 0)
+        "
+        class="small"
+        
+      >
+        No se encontraron registros
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorright" let-state>
+    <div class="text-black-50 small">
+      {{ state | mensajePaginador: this.dataEntity.totalRegistros }}
+    </div>
+  </ng-template>
+</p-table>

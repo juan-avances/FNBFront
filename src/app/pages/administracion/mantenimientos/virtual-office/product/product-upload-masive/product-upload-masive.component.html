@@ -1,0 +1,48 @@
+<!-- crear productos nivel masivo -->
+<div class="modal-header">
+  <p class="bolder"> Cargar Productos </p>
+</div>
+<mat-dialog-content>
+  <div class="modal-body">
+    <form class="material-form">
+      <div class="col-md-12">
+        <div class="d-flex bd-highlight align-items-center">
+          <div class="p-2 flex-md-fill bd-highlight">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Archivo Productos</mat-label>
+              <ngx-mat-file-input
+                name="file"
+                [ngModel]=""
+                #file="ngModel"
+                required
+                accept=".csv"
+                (change)="setFile($event)"
+                type="file"
+              >
+              </ngx-mat-file-input>
+              <mat-error *ngIf="file.errors && file.touched">Debe seleccionar un archivo csv.</mat-error>
+            </mat-form-field>
+            <!-- <input type="file" (change)="setFile($event)" > -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<div class="modal-footer">
+  <mat-dialog-actions class="btnStyle-1">
+    <div class="form_buttons">
+      <div class="buttons_actions">
+        <button [disabled]="file.invalid" mat-raised-button (click)="UploadFile()" color="btnCeleste">
+            <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+        <button mat-raised-button [mat-dialog-close]="true" cdkFocusInitial color="btnGris">
+          <mat-icon>clear</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </mat-dialog-actions>
+</div>

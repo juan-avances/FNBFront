@@ -1,0 +1,46 @@
+<div class="cambio_clave">
+  <h2 mat-dialog-title>Encuesta</h2>
+  <mat-dialog-content class="mat-typography" style="text-align: left !important;">
+    <form [formGroup]="forma" class="material-form form-validate">
+      <div formArrayName="preguntas" class="modalidadEntregaDialog">
+        <mat-card-content
+          *ngFor="let pregunta of forma.get('preguntas')['controls']; let i = index"
+          [formGroupName]="i"
+        >
+          <h3>
+            <strong>{{ encuesta.preguntas[i].nombre }}</strong>
+          </h3>
+          <section formArrayName="alternativas" class="list-group list-group-flush">
+            <div
+              *ngFor="let alternativa of pregunta.get('alternativas')['controls']; let j = index"
+              [formGroupName]="j"
+            >
+              <mat-checkbox [formControl]="alternativa.controls.checked">
+                {{ encuesta.preguntas[i].alternativas[j].nombre }}</mat-checkbox
+              >
+              <mat-form-field
+                *ngIf="alternativa.controls.checked.value && encuesta.preguntas[i].alternativas[j].esOtro"
+                class="example-full-width"
+              >
+                <input matInput [formControl]="alternativa.controls.otro" placeholder="Otro" required />
+              </mat-form-field>
+            </div>
+          </section>
+        </mat-card-content>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+    <button
+      mat-button
+      [disabled]="!forma.valid"
+      (click)="enviar()"
+      mat-raised-button
+      color="btnCeleste"
+      cdkFocusInitial
+    >
+      Grabar
+    </button>
+  </mat-dialog-actions>
+</div>

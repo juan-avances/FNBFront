@@ -1,0 +1,42 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    [ngClass]="'mat-elevation-z8'"
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+    (click)="ocultarConfig()"
+    [perfectScrollbar]="scrollbars"
+  >
+    <mat-toolbar [ngClass]="'mat-elevation-z4'" color="azulCalidda"
+      ><div class="system_name">SISTEMA FNB</div></mat-toolbar
+    >
+    <mat-nav-list>
+      <app-sidebar></app-sidebar>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar [ngClass]="'mat-elevation-z4'" color="azulCalidda">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        (click)="ocultarConfig()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <!-- <span>theme</span> -->
+      <div class="master_header">
+        <app-header></app-header>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <section class="main" (click)="ocultarConfig()">
+      <router-outlet></router-outlet>
+    </section>
+    <app-footer></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

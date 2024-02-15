@@ -1,0 +1,81 @@
+<ng-container [formGroup]="forma">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Combos y Productos</h2>
+    </mat-card-title>
+    <div *ngIf="_financiamientoEdicionService.state === ''" class="buscaCombo">
+      <mat-form-field class="buscaComboMatWrapper">
+        <input
+          matInput
+          type="text"
+          placeholder="Buscar combos"
+          (keyup.enter)="filterCombos(buscarCombo.value)"
+          #buscarCombo
+        />
+        <button mat-button matSuffix mat-icon-button (click)="filterCombos(buscarCombo.value)" aria-label="Buscar">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </mat-card-header>
+
+  <section class="form_material" *ngIf="combos.length > 0">
+    <div class="content_material d-flex justify-content-center align-content-center">
+      <ngx-slick-carousel
+        class="carousel"
+        #slickModal="slick-carousel"
+        [config]="slideConfig"
+        (init)="slickInit($event)"
+        (breakpoint)="breakpoint($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)"
+      >
+        <div ngxSlickItem *ngFor="let combo of combos" class="slide comboSlide" (click)="agregarCombo(combo)">
+          <div class="front">
+            <div class="title">{{ combo.data.aliado.data.nombre }}</div>
+            <div class="subtitle">{{ combo.data.nombre }}</div>
+            <div class="precioContainer">
+              S/. {{ combo.data.precio }}
+              <!-- <i class="material-icons-outlined">
+add_circle_outline
+</i> -->
+            </div>
+            <div class="productosList">
+              <ul>
+                <li *ngFor="let producto of combo.children">{{ producto.data.nombre }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="back">
+            <div class="productosList">
+              <ul>
+                <li *ngFor="let producto of combo.children">{{ producto.data.nombre }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ngx-slick-carousel>
+      <div class="slider__arrows">
+        <!-- <button class="slick-prev slick-arrow" (click)="slickModal.slickPrev()"></button>
+                <button class="slick-next slick-arrow" (click)="slickModal.slickNext()">
+                    <img src="/WebFNB/assets/img/slick-right.svg" alt="">
+                </button> -->
+      </div>
+    </div>
+  </section>
+
+  <div class="addButton" *ngIf="_financiamientoEdicionService.state === ''">
+    <button (click)="agregarProductoManual()" *ngIf="visualizaProducto" mat-raised-button color="btnCeleste">
+      <em class="material-icons-outlined">add_circle_outline</em>Agregar Producto Manualmente
+    </button>
+
+    <i class="fas fa-file-excel" style="color:white;">ESPACIO</i> 
+
+    <button (click)="agregarProducto()" mat-raised-button color="btnCeleste">
+      <em class="material-icons-outlined">add_circle_outline</em>Agregar Producto
+    </button>
+
+
+    
+  </div>
+</ng-container>

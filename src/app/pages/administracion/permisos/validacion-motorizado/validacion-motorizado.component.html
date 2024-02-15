@@ -1,0 +1,80 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Validación Motorizado</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    
+    <form [formGroup]="forma" >
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <mat-select
+                matInput
+                (selectionChange)="onChange()"
+                [disabled]="idCanal"
+                id="idCanal"
+                name="idCanal"
+                [value] = idCanal
+                formControlName="idCanal"
+                placeholder="Canal"
+              >
+                <mat-option *ngFor="let canal of optionCanal" value="{{ canal.value }}">
+                  {{ canal.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div></div>
+        </div>
+
+        <div *ngIf="formularios" class="content_material">
+          <p-treeTable [value]="formularios" class="table-striped">
+            <ng-template pTemplate="header">
+              <tr class="small table_th">
+                <th [width]="25 + '%'">Categoria</th>
+                <ng-container *ngFor="let modalidad of optionModalidad">
+                  <th [width]="12 + '%'" >{{ modalidad.label }}</th>
+                </ng-container>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+              <tr class="small table_td" >
+                <td>
+                  <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                  {{ rowData.nombreCategoria }}
+                </td>
+                <ng-container *ngFor="let modalidad of rowData.OpcionesModalidad; let index = index">
+                  <td class="center_button" (click)="togglePermiso(rowData.OpcionesModalidad, modalidad)">
+                  
+                    <mat-icon class="checkIcon" *ngIf="modalidad.valor">done</mat-icon>
+                  </td>
+                </ng-container>
+              </tr>
+            </ng-template>
+
+          </p-treeTable>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              *ngIf="this._global.validarPermiso('VERVALMOT')"
+              type="submit"
+              id="submit"
+              (click)="onSubmit()"
+              [disabled]="!forma.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button id="cancel" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

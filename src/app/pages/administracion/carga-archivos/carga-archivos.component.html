@@ -1,0 +1,106 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Carga de Archivos</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="forma" class="material-form form-validate">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <mat-select
+                required
+                placeholder="Cargas"
+                matInput
+                (selectionChange)="change($event)"
+                formControlName="tipoCarga"
+              >
+                <mat-option *ngFor="let carga of optionOpcion" [value]="carga.value">{{ carga.label }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field *ngIf="showAliado">
+              <mat-select placeholder="Aliado Comercial" (selectionChange)="changeCanales($event)" formControlName="idAliado"   [value]="idAliado"  [disabled]="idAliado">
+                <mat-option *ngFor="let aliado of optionAliados" value="{{ aliado.value }}"
+                  >{{ aliado.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <div class="file_input" (click)="fileInput.click()">
+              <button id="update" mat-raised-button color="btnCeleste_l">
+                <i class="fas fa-upload"></i> Seleccionar Archivo
+              </button>
+              <input
+                #fileInput
+                type="file"
+                style="display:none;"
+                formControlName="archivo"
+                accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (change)="onArchivoSeleccionado($event)"
+              />
+            </div>
+            <div class="file_input">
+              <p id="archivo" class="fnb_italic">Ningún archivo seleccionado</p>
+            </div>
+            <div>
+              <p type="text" id="valor" hidden></p>
+            </div>
+          </div>
+        </div>
+        <div class="form_inputs">
+          <div *ngIf="showFecha">
+            <mat-form-field>
+              <input
+                matInput
+                [min]="minDate"
+                [matDatepicker]="fecha_fin"
+                placeholder="Fecha de Vencimiento"
+                formControlName="fechaVencimiento"
+                name="fechaVencimiento"
+              />
+              <mat-datepicker-toggle matSuffix [for]="fecha_fin"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_fin></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div *ngIf="showFecha">
+            <mat-form-field>
+              <mat-select placeholder="Turno" formControlName="idHorario" name="idHorario">
+                <mat-option *ngFor="let turno of optionTurno" value="{{ turno.value }}">{{ turno.label }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="showFecha">
+            <mat-form-field>
+              <mat-select placeholder="Canales de Venta" formControlName="idCanalVenta" name="idCanalVenta">
+                <mat-option *ngIf="optionCanalVenta.length" value="0">Todos</mat-option>
+                <mat-option *ngFor="let canal of optionCanalVenta" value="{{ canal.value }}">{{ canal.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              *ngIf="this._global.validarPermiso('CARARCH')"
+              type="submit"
+              id="submit"
+              mat-raised-button
+              color="btnCeleste"
+              (click)="sendFile()"
+              [disabled]="!forma.valid"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button id="cancel" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

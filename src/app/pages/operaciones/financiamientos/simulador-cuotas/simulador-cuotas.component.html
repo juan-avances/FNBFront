@@ -1,0 +1,36 @@
+<div class="cambio_clave">
+  <h2>Simulador de Cuotas</h2>
+  <form [formGroup]="forma" class="material-form form-validate">
+    <div class="example-container">
+      <mat-form-field>
+        <input
+          required
+          type="number"
+          min="1"
+          ngMin="1"
+          matInput
+          id="montoTotal"
+          formControlName="montoTotal"
+          placeholder="Ingrese el monto total"
+          [(ngModel)]="lineaCredito"
+        />
+      </mat-form-field>
+
+      <app-financiamiento-cuotas #cuotas></app-financiamiento-cuotas>
+
+      <div class="dialog_buttons">
+        <button
+          type="submit"
+          [disabled]="!forma.valid"
+          (click)="calcular()"
+          id="submit"
+          mat-raised-button
+          color="btnCeleste"
+        >
+          Calcular Cuotas
+        </button>
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

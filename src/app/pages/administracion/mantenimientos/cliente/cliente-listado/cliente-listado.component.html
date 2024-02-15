@@ -1,0 +1,67 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Clientes</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form class="">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <mat-select (selectionChange)="changeTipoDocumento($event, dt)" matInput placeholder="Tipo Documento">
+                <mat-option>TODOS</mat-option>
+                <mat-option *ngFor="let tipo of tiposDocumento" [value]="tipo.value">
+                  {{ tipo.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                (change)="dt.filter($event.srcElement.value, 'cliente', 'contains')"
+                matInput
+                placeholder="Cliente"
+              />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                (change)="dt.filter($event.srcElement.value, 'nroDocumento', 'contains')"
+                matInput
+                placeholder="N° Documento"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <!-- <div class="other_buttons">
+      <div class="buttons_">
+        <div class="right">
+          <a *ngIf="this._global.validarPermiso('AGRCLI')" [routerLink]="['/cliente']">
+            <button mat-raised-button color="btnCeleste">
+              <em class="material-icons-outlined">add_circle_outline</em> Nuevo
+            </button>
+          </a>
+        </div>
+      </div>
+    </div> -->
+    <div class="content_material">
+      <app-paging-grid
+        #dt
+        [dataEntity]="dataEntity"
+        (paginationLoad)="loadLazy($event)"
+        (updateState)="updateState($event)"
+      ></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

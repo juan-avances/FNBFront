@@ -1,0 +1,16 @@
+export { EstadisticaService } from './backend/estadisticas.service';
+export { CategoryService } from './backend/category.service';
+export { FinanciamientoService } from './backend/financiamiento.service';
+export { SeguridadService } from './backend/seguridad.service';
+export { AuthenticationService } from './backend/authentication.service';
+export { UsuarioService } from './backend/usuario.service';
+export { AliadoComercialService } from './backend/aliadoComercial.service';
+export { SedeService } from './backend/sede.service';
+export { UbigeoService } from './backend/ubigeo.service';
+export { ClienteService } from './backend/cliente.service';
+export { ConsultaService } from './backend/consulta.service';
+export { CorreoService } from './backend/correo.service';
+//export { SignalRService } from './backend/signal-r.service';
+export { EncuestaService } from './backend/encuesta.service';
+export { MotivoService } from './backend/motivo.service';
+export {  FinanciamientoArchivoService } from './backend/financiamiento-archivo.service';

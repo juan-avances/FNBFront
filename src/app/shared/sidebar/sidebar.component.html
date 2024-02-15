@@ -1,0 +1,19 @@
+<div id="sidebar">
+    <mat-card class="shadow-none">
+        <div class="sidebar_content">
+            <div class="sidebar_logo">
+                <div class="logo_"></div>
+            </div>
+            <div class="_dash_init">
+                <a [routerLink]="['/']">
+                    <button type="submit" id="submit" [routerLink]="['/dashboard']" mat-raised-button color="btnAzul">
+                      <i class="fas fa-home"></i> Inicio
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="sidebar_menu">
+            <p-panelMenu [model]="items" [multiple]="false"></p-panelMenu>
+        </div>
+    </mat-card>
+</div>

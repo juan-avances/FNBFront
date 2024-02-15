@@ -1,0 +1,211 @@
+<ng-container [formGroup]="forma">
+  <div class="form_inputs middle_align">
+    <div>
+      <div formGroupName="despacho" class="modalidadEntregaDialog">
+        <mat-card class="calidda-card no-shadow">
+          <mat-card-content *ngIf="verDelivery" class="card-content er-form">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <mat-select
+                    (selectionChange)="searchUbigeo($event, 2)"
+                    placeholder="Departamento"
+                    formControlName="departamentoId"
+                    matInput
+                  >
+                    <mat-option>-- Seleccione --</mat-option>
+                    <mat-option *ngFor="let departamento of departamentos" [value]="departamento.value">
+                      {{ departamento.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <mat-select
+                    (selectionChange)="searchUbigeo($event, 3)"
+                    placeholder="Provincia"
+                    formControlName="provinciaId"
+                    matInput
+                  >
+                    <mat-option>-- Seleccione --</mat-option>
+                    <mat-option *ngFor="let provincia of provincias" [value]="provincia.value">{{
+                      provincia.label
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <mat-select placeholder="Distrito" formControlName="distritoId" matInput>
+                    <mat-option>-- Seleccione --</mat-option>
+                    <mat-option *ngFor="let distrito of distritos" [value]="distrito.value">{{
+                      distrito.label
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <p>
+              <mat-form-field class="er-full-width">
+                <input placeholder="Calle" formControlName="calleDespacho" name="calleDespacho" matInput />
+              </mat-form-field>
+              <mat-form-field class="er-full-width">
+                <input
+                  matInput
+                  placeholder="Referencia"
+                  formControlName="referenciaDespacho"
+                  name="referenciaDespacho"
+                />
+              </mat-form-field>
+            </p>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input
+                    matInput
+                    readonly
+                    [matDatepicker]="entrega_picker"
+                    placeholder="Fecha Delivery"
+                    formControlName="fechaRecojo"
+                    [min]="fechaMinRecojo"
+                    [max]="fechaMaxRecojo"
+                    name="fechaRecojo"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="entrega_picker"></mat-datepicker-toggle>
+                  <mat-datepicker #entrega_picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <mat-select placeholder="Rango horario" formControlName="horarioRecojo" name="horarioRecojo">
+                    <mat-option>-- Seleccione --</mat-option>
+                    <mat-option value="1">Mañana (9:00am a 1:00pm)</mat-option>
+                    <mat-option value="2">Tarde (1:00pm a 6:00pm)</mat-option>
+                    <mat-option value="3">Noche (6:00pm a 10:00pm)</mat-option>
+                    <mat-option value="4">Todo el dia (9:00am a 11:59pm)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <span matPrefix>S/ &nbsp;</span>
+                  <input
+                    matInput
+                    placeholder="Costo de envio"
+                    formControlName="costoEnvioDespacho"
+                    name="costoEnvioDespacho"
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row mt-4">
+              <div class="col-md-3 text-left">Quien recibe:</div>
+              <div class="col-md-9 text-left">
+                <mat-radio-group
+                  class="spacev_30"
+                  aria-label="Selecciona una opcion"
+                  (change)="ChangeOtraPersona($event)"
+                  formControlName="quienRecibe"
+                  name="quienRecibe"
+                >
+                  <mat-radio-button value="1" color="primary">Titular</mat-radio-button>
+                  <mat-radio-button value="2" color="primary">Otra persona</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <br />
+            <div class="row" formGroupName="otraPersona" *ngIf="forma.get('despacho').get('quienRecibe').value === '2'">
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="DNI" formControlName="dni" name="dni" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="Nombre Completo" formControlName="nombre" name="nombre" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="Parentesco" formControlName="parentesco" name="parentesco" />
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-content *ngIf="verRetiroTienda" class="card-content er-form">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="er-full-width">
+                  <input
+                    matInput
+                    readonly
+                    [matDatepicker]="recojo_picker"
+                    placeholder="Fecha de recojo"
+                    formControlName="fechaRecojo"
+                    [min]="fechaMinRecojo"
+                    [max]="fechaMaxRecojo"
+                    name="fechaRecojo"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="recojo_picker"></mat-datepicker-toggle>
+                  <mat-datepicker #recojo_picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="er-full-width">
+                  <mat-select placeholder="Rango horario" formControlName="horarioRecojo" name="horarioRecojo">
+                    <mat-option value="1">Mañana (9:00am a 1:00pm)</mat-option>
+                    <mat-option value="2">Tarde (1:00pm a 6:00pm)</mat-option>
+                    <mat-option value="3">Noche (6:00pm a 10:00pm)</mat-option>
+                    <mat-option value="4">Todo el dia (9:00am a 11:59pm)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="er-full-width">
+                  <mat-select placeholder="Otra Sede" formControlName="otraSedeTiendaId">
+                    <mat-option *ngFor="let sede of sedes" [value]="sede.value">{{ sede.label }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-3 text-left">Quien recibe:</div>
+              <div class="col-md-9 text-left">
+                <mat-radio-group
+                  class="spacev_30"
+                  aria-label="Selecciona una opcion"
+                  (change)="ChangeOtraPersona($event)"
+                  formControlName="quienRecibe"
+                  name="quienRecibe"
+                >
+                  <mat-radio-button value="1" color="primary">Titular</mat-radio-button>
+                  <mat-radio-button value="2" color="primary">Otra persona</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <br />
+            <div class="row" formGroupName="otraPersona" *ngIf="forma.get('despacho').get('quienRecibe').value === '2'">
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="DNI" formControlName="dni" name="dni" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="Nombre Completo" formControlName="nombre" name="nombre" />
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="er-full-width">
+                  <input matInput placeholder="Parentesco" formControlName="parentesco" name="parentesco" />
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</ng-container>

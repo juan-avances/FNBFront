@@ -1,0 +1,58 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Motivo</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="forma" *ngIf="forma">
+      <section class="form_material">
+        <div class="form_inputs top_align">
+          <div>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Código" codigoMotivo formControlName="codigo" maxlength="15" />
+              <mat-error>
+                <p *ngIf="forma.get('codigo').invalid">Caracteres permitidos letras, números o ambos.</p>
+              </mat-error> </mat-form-field
+            ><br />&nbsp;<br />
+            
+            <mat-checkbox formControlName="esOtro">Es Otro</mat-checkbox>
+            
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Nombre"
+                letterNumberSign
+                formControlName="nombre"
+                maxlength="100"
+              />
+              <mat-error>
+                <p *ngIf="forma.get('nombre').invalid">Caracteres permitidos letras, números o ambos.</p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              type="submit"
+              (click)="onSubmit()"
+              id="submit"
+              [disabled]="!forma.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button id="cancel" (click)="cancelar()" mat-raised-button color="btnGris">
+              <mat-icon>block</mat-icon> Cancelar
+            </button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

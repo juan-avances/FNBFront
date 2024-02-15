@@ -1,0 +1,97 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Estadísticas de Consultas</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <section class="form_material">
+      <div class="form_inputs">
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="Aliado Comercial" matInput (selectionChange)="change($event, dt)"
+              [disabled]="idAliadoComercial" [value]="idAliadoComercial">
+              <mat-option>TODOS</mat-option>
+              <mat-option *ngFor="let item of estadisticasListInit.aliadosComerciales" [value]="item.value">{{
+                item.label
+                }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput readonly [matDatepicker]="pickers1" [(ngModel)]="fechaCreacionMin" [max]="fechaCreacionMax"
+              placeholder="Fecha de inicio" (ngModelChange)="filterFechaCreacionMin($event)" dateFormat="dd/MM/yyyy" />
+            <mat-datepicker-toggle matSuffix [for]="pickers1"></mat-datepicker-toggle>
+            <mat-datepicker #pickers1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="Sede" (selectionChange)="dt.filter($event.value, 'sedeId', 'equals')">
+              <mat-option *ngIf="this._global.validarPermiso('VERLBLALL')">-- Todos --</mat-option>
+              <mat-option *ngFor="let item of estadisticasListInit.sede" [value]="item.value">
+                {{ item.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput readonly [matDatepicker]="pickers2" [(ngModel)]="fechaCreacionMax"
+              placeholder="Fecha de fin" (ngModelChange)="filterFechaCreacionMax($event)" dateFormat="dd/MM/yyyy"
+              [min]="fechaCreacionMin" />
+            <mat-datepicker-toggle matSuffix [for]="pickers2"></mat-datepicker-toggle>
+            <mat-datepicker #pickers2></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-select placeholder="Canal" (selectionChange)="dt.filter($event.value, 'canalVentaId', 'equals')">
+              <mat-option *ngIf="this._global.validarPermiso('VERLBLALL')">-- Todos --</mat-option>
+              <mat-option *ngFor="let item of estadisticasListInit.canalesVenta" [value]="item.value">
+                {{ item.label }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div style="width: 100%; border-bottom: 1px solid gray; padding-top: 15px">
+            <div style="width: 48%; display: inline-block">
+              <p-calendar placeholder="Hora inicio" [(ngModel)]="dateStart" [timeOnly]="true" class="calendar-range"
+                (onBlur)="filterHoraInicio()"></p-calendar>
+            </div>
+            <div style="display: inline-block; margin-right: 3px">-</div>
+            <div style="width: 47%; display: inline-block">
+              <p-calendar placeholder="Hora fin" [(ngModel)]="dateEnd" [timeOnly]="true"
+                (onBlur)="filterHoraFin()"></p-calendar>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="form_buttons" *ngIf="this._global.validarPermiso('EXPEST')">
+            <div class="buttons_actions">
+              <button type="button" id="imprimir" mat-raised-button color="btnCeleste" (click)="
+                exportar()
+                ">
+                <mat-icon>cloud_download</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section style="margin-left: 30px;">
+      <app-dashboard-stats title="Total Consultas" [valueDash]="obtenerTotalConsultas()"
+        [statsDash]="obtenerPorcentajeTotalConsultas()" [colorStats]="'blue'"></app-dashboard-stats>
+      <app-dashboard-stats title="Consulta con ventas" [valueDash]="obtenerTotalConsultasConVentas()"
+        [statsDash]="obtenerPorcentajeTotalConsultasConVentas()" [colorStats]="'#77DD77'"></app-dashboard-stats>
+      <app-dashboard-stats title="Consulta sin ventas" [valueDash]="obtenerTotalConsultasSinVentas()"
+        [statsDash]="obtenerPorcentajeTotalConsultasSinVentas()" [colorStats]="'#FFD700'"></app-dashboard-stats>
+    </section>
+    <mat-card-content class="card-content">
+      <section class="form_material"></section>
+    </mat-card-content>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <div class="content_material">
+      <!-- (updateState)="updateState($event)" comento jcastillo-->
+      <app-paging-grid #dt [dataEntity]="dataEntity" (paginationLoad)="loadLazy($event)"></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

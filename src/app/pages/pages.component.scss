@@ -1,0 +1,15 @@
+::ng-deep .mat-card-header-text{
+    width: 100%;
+}
+
+::ng-deep .mat-slide-toggle:not(.mat-checked) .mat-slide-toggle-bar {
+    background-color: #e29486;
+}
+
+::ng-deep .mat-slide-toggle:not(.mat-checked) .mat-slide-toggle-thumb {
+    background-color: #c75555;
+}
+
+::ng-deep .disabledd {
+    color: #d1d1d1!important;
+}

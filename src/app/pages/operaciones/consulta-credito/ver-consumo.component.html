@@ -1,0 +1,43 @@
+<div class="cambio_clave">
+  <h2>Consumos</h2>
+  <form class="material-form form-validate">
+    <div class="example-container">
+      <section class="form_material">
+        <div class="content_material">
+          <!-- <div class="form_inputs"> -->
+          <div class="horizontal">
+            <!-- <strong>Línea de Crédito S/. {{ lineaCredito }}</strong> -->
+            <strong>Utilizado S/. {{ utilizado }}</strong>
+            <strong>Disponible S/. {{ disponible }}</strong>
+          </div>
+          <!-- </div> -->
+        </div>
+      </section>
+      <section class="form_material">
+        <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
+          <ng-container matColumnDef="fecha">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.fecha }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="hora">
+            <mat-header-cell *matHeaderCellDef> Hora </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.hora }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.estado }} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="consumoColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: consumoColumns"> </mat-row>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+      </section>
+      <div class="dialog_buttons">
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cerrar</button>
+      </div>
+    </div>
+  </form>
+</div>

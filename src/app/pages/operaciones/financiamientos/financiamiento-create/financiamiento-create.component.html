@@ -1,0 +1,403 @@
+
+<form [formGroup]="forma" onkeydown="return event.key != 'Enter';">
+  <mat-card class="calidda-card" *ngIf="showCertificado"> 
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Certificado CrediCalidda</h2>
+          <!-- <h2>Validación RENIEC</h2> -->
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content" style="margin-top: 1px;">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div style="margin-top: 10px; margin-bottom: 10px;">
+            <button (click)="downloadCertificado()" mat-raised-button color="btnCeleste" [disabled]="!isEnabledCertificado">
+              Descargar certificado
+            </button>
+          </div>
+        </div>
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="calidda-card" *ngIf="cliente?.tipoDocumento == 'PE2'">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Validacion de Identidad</h2>
+          <!-- <h2>Validación RENIEC</h2> -->
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content" style="margin-top: 1px;">
+
+      <section class="form_material">
+        <div class="form_inputs">
+          <div style="margin-top: 10px; margin-bottom: 10px;">
+            <table style="width: 100%;">
+              <tr>
+                <td style="width: 25%; padding-right: 15px;">
+                  <mat-form-field>
+                    <mat-select placeholder="Tipo de validación" formControlName="tipoValidacionIdentidad" (selectionChange)="changeTipoVal($event.value)">
+                      <mat-option [value]="item.id" *ngFor="let item of TipoValidacion">{{item.text}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+
+                <ng-container *ngIf="getTipoVal == '1'">
+                <td>
+                  <table> 
+                    <tr>
+                      <td colspan="2"><div class="p-sm-0 col-12 label-content" style="height: 10px;">
+                        <label style="font-size: 14px;  border-left: 4px solid #1e9fda;
+                      padding-left: 10px;position: absolute; bottom: 0;">Validación RENIEC</label>
+                      </div>
+                    </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-left: 10px; padding-top: 15px;">
+                        <button (click)="openReniecModal($event)" mat-raised-button color="btnCeleste">
+                          Empezar
+                        </button>
+
+                      </td>
+                        
+                      <td style="
+                      vertical-align: middle;
+                      text-align: center;
+                      width: 110px;" *ngIf="!isValidReniec">
+                        <label style="margin-left: 10px;" *ngIf="!isValidReniec">
+                          Sin validar 
+                        </label>
+                      </td>
+                      <td style="
+                      vertical-align: middle;
+                      text-align: center;
+                      width: 110px;" *ngIf="isValidReniec">
+                        
+                        
+                        <label style="margin-left: 10px;"  color="btnCeleste">
+                          Validado! <mat-icon>check</mat-icon>
+                        </label>
+                      </td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </td>
+                </ng-container>
+
+                <ng-container *ngIf="getTipoVal == '2'">
+                  <td style="width: 45%; padding-right: 15px;">
+                    <mat-form-field>
+                      <mat-select placeholder="Usuario validador" formControlName="idUsuarioValidador">
+                        <mat-option [value]="item.value" *ngFor="let item of usuariosValidadores">{{item.label}}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="f.idUsuarioValidador.errors?.required" >Campo requerido!</mat-error>
+                    </mat-form-field>
+                  </td>
+                  <td style="width: 45%; padding-right: 15px;">
+                    <mat-form-field id="codigoValidador" >
+                    <input matInput formControlName="codigoValidador" placeholder="Codigo validador" maxlength="20" onlyLetterPadNumber/>
+                    <mat-error *ngIf="f.codigoValidador.errors?.required" >Campo requerido!</mat-error>
+                    </mat-form-field>
+                  </td>
+                </ng-container>
+
+                
+
+                <td *ngIf="isValidReniec">
+                  <img [src]="photob64"  style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 148px;
+                  height: 184px;">
+                </td>
+                <td *ngIf="isValidReniec">
+                    <div class="form_inputs">
+                      <div class="m-1">
+                        <div class="content_flex">
+                          <div>
+                            <div class="bg">Fecha Emisión</div>
+                            <div>{{fechaEmision | date: 'dd/MM/yyyy'}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  <img [src]="firmab64"  style="
+                  border: solid;
+                  border-width: 1.5px;
+                  border-radius: 8px;
+                  border-color: #949798;
+                  width: 230px;
+                  height: 108px;">
+                </td>
+                <td></td>
+                
+              </tr>
+            </table>
+            <br *ngIf="getTipoVal == '1'">
+            
+
+            
+            
+
+            
+            
+            
+          </div>
+        </div>
+        
+        <!-- <div class="form_inputs middle_align">
+          <div>
+            <div class="row-content mb-sm-0 mb-md-4">
+              
+              <mat-form-field id="nroTelefono" style="width: 58%">
+                <input matInput  placeholder="Ingrese comentario"/>
+              </mat-form-field>
+                  
+            
+            </div>
+          </div>
+        </div> -->
+        
+
+        <!-- <div class="form_inputs middle_align">
+          
+        </div> -->
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card class="calidda-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Registro de Financiamiento</h2>
+      </mat-card-title>
+      <div class="addButton" style="float:right">
+        <button type="button" (click)="simularCuotas()" mat-raised-button color="btnCeleste">
+          <em class="material-icons-outlined">add_circle_outline</em>Simular Cuotas
+        </button>
+      </div>
+    </mat-card-header>
+
+
+
+    <mat-card-content class="card-content" style="margin-top: 15px">
+      <section class="form_material">
+        <div class="form_inputs middle_align">
+          <div>
+            <mat-form-field>
+              <input matInput readonly matInput [matDatepicker]="pickers" placeholder="Fecha de venta"
+                formControlName="fechaVenta" />
+              <mat-datepicker-toggle matSuffix [for]="pickers" disabled></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <input type="email" matInput formControlName="correoElectronico" placeholder="Correo Electrónico"
+                name="correoElectronico" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" #txtSearchEmails
+                (keypress)="ngtxtSearchEmails_keyPress($event)" (keyup)="ngtxtSearchEmails_keyDown($event)" />
+
+              <select style="position: absolute;
+              left: 0px;
+              top: 27px;
+              width: 100%;
+              overflow: hidden;
+              background: #f9f7f7;
+              z-index: 1;
+              font-family: system-ui;
+              font-family: var(--mdc-typography-body1-font-family, var(--mdc-typography-font-family, Roboto, sans-serif));
+              /* font-size: var(--mdc-typography-body1-font-size, 16px); */
+              line-height: var(--mdc-typography-body1-line-height, 24px);
+              font-weight: var(--mdc-typography-body1-font-weight, 400);
+              letter-spacing: var(--mdc-typography-body1-letter-spacing, .03125em);
+              padding:5px;" [hidden]="isHiddenListEmail" name="miselect" [size]="emailsFind.length+2"
+                (click)="ngSelectAutocomplete_onOptionsSelected($event)" #cboEmails
+                (keyup)="ngcboEmails_keydown($event)">
+                <option [value]="item" *ngFor="let item of emails">{{item}}</option>
+                <option value="-1"></option>
+              </select>
+
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select formControlName="nroCuota" placeholder="N° Cuotas">
+                <mat-option value="NB03">03 CUOTAS</mat-option>
+                <mat-option value="NB06">06 CUOTAS</mat-option>
+                <mat-option value="NB09">09 CUOTAS</mat-option>
+                <mat-option value="NB12">12 CUOTAS</mat-option>
+                <mat-option value="NB18">18 CUOTAS</mat-option>
+                <mat-option value="NB24">24 CUOTAS</mat-option>
+                <mat-option value="NB36">36 CUOTAS</mat-option>
+                <mat-option value="NB48">48 CUOTAS</mat-option>
+                <mat-option value="NB60">60 CUOTAS</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+
+          </div>
+
+          <br>
+          <div>
+            <mat-form-field *ngIf="ngFechaEntregaPerm">
+              <input matInput readonly [matDatepicker]="pickers" placeholder="Fecha de entrega"
+                [min]="forma.get('fechaVenta').value" [max]="fechaActual" formControlName="fechaEntrega" />
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field id="tipoTelefono">
+              <mat-select (selectionChange)="changeTipoTel($event.value)" matInput formControlName="tipoTelefono"
+                placeholder="Tipo de teléfono">
+                <mat-option value="T001"> Fijo </mat-option>
+                <mat-option value="T002"> Celular </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div id="prefijonro" class="{{ visibilidad }} mat-form-field"
+              style="padding-left: 7px; padding-right: 7px; padding-bottom: 6px; width: 39px; border-bottom: 1px solid rgba(0,0,0,.42);">
+              01 -
+            </div>
+
+            <mat-form-field id="nroTelefono" style="width: 58%">
+              <input matInput formControlName="numeroTelefono" placeholder="Número de teléfono" onlyNumber
+                minlength="{{ lenghtValidacion }}" maxlength="{{ lenghtValidacion }}" />
+            </mat-form-field>
+
+            <mat-form-field id="tipoTelefonoOp">
+              <mat-select (selectionChange)="changeTipoTelOp($event.value)" matInput formControlName="tipoTelefonoOp"
+                placeholder="Tipo de teléfono">
+                <mat-option value="T001"> Fijo </mat-option>
+                <mat-option value="T002"> Celular </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div id="prefijonro" class="{{ visibilidadOp }} mat-form-field"
+              style="padding-left: 7px; padding-right: 7px; padding-bottom: 5px; width: 39px; border-bottom: 1px solid rgba(0,0,0,.42);">
+              01 -
+            </div>
+            <mat-form-field id="nroTelefonoOp" style="width: 58%">
+              <input matInput onlyNumber formControlName="nroTelefonoOp" placeholder="Número de teléfono (Opcional)"
+                minlength="{{ lenghtValidacionop }}" maxlength="{{ lenghtValidacionop }}" />
+            </mat-form-field>
+
+            <input hidden="true" matInput formControlName="montoCuota" readonly placeholder="Monto de cuota" />
+
+
+          </div>
+          <div>
+            <mat-form-field id="canal">
+              <mat-select (selectionChange)="canalChange($event)" formControlName="canalVentaId" placeholder="Canal"
+                matInput>
+                <mat-option *ngFor="let canal of listas.canales" [value]="canal.value">
+                  {{ canal.label }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="{{ ViewUserResto }}">
+              <mat-form-field>
+                <input type="text" placeholder="Vendedor" formControlName="vendedor" name="vendedor"
+                  [matAutocomplete]="auto" matInput />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="changeVendedor($event)"
+                  [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of Vendedores | async" [value]="option">
+                    {{ option.label }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="{{ ViewUserVendedor }}">
+              <mat-form-field>
+                <input id="idLectura" placeholder="Vendedor" [disabled]="isRolVolante" matInput readonly value="{{ NombreCompleto }}" />
+              </mat-form-field>
+            </div>
+
+
+            <mat-form-field>
+              <input matInput formControlName="pagoMensual" readonly placeholder="Cuota Mensual" />
+            </mat-form-field>
+
+          </div>
+        </div>
+        <div></div>
+
+        <br><br>
+
+
+
+        <app-financiamiento-cuotas [montoEvaluar]="obtenerTotal()"></app-financiamiento-cuotas>
+
+
+        <div class="other_buttons" style="padding-top: 45px;">
+          <div class="buttons_">
+            <div>
+              <div class="buttons_actions">
+                <mat-form-field *ngIf="financiamiento.sedeId === 0" id="sede">
+                  <mat-select formControlName="sedeId" placeholder="Sede" matInput (selectionChange)="changeSede($event.value)">
+                    <mat-option *ngFor="let sede of listas.sedes" [value]="sede.value">
+                      {{ sede.label }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <app-financiamiento-combos [forma]="forma" (agregarCP)="agregarComboProducto($event)"
+          [aliadoId]="forma.value.aliadoComercialId" [canalId]="forma.value.canalVentaId"></app-financiamiento-combos>
+
+
+        <app-financiamiento-productos [forma]="forma" (eliminarCP)="eliminarComboProducto($event)"
+          (despachoCP)="despachoComboProducto($event)" [hayExceso]="hayExceso" [totalMonto]="totalMonto"
+          [detalle]="financiamiento.detalle" [lineaCredito]="lineaCredito"></app-financiamiento-productos>
+      </section>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Fines Comerciales -->
+  <mat-card class="calidda-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h2>Consentimiento de datos</h2>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="" style="margin-top: 15px">
+      <section class="form_material">
+          <div class="form_inputs middle_align">
+              <div class="row">
+                <div  class="row">
+                  <mat-label><strong>Acepto el uso de mis datos para fines adicionales / comerciales.</strong></mat-label>
+                </div >
+                  <div  class="row" style="margin-top: 25px;">
+                    <mat-radio-group [(ngModel)]="consentimiento" [ngModelOptions]="{standalone: true}" (change)="ChangeConsentimiento($event)" [disabled]="consentimientoApi">
+                      <mat-radio-button [value]="true" color="primary">SI</mat-radio-button>
+                      <mat-radio-button [value]="false" color="primary" style="margin-left: 12px;">NO</mat-radio-button>
+                      <mat-error *ngIf="consentimientoInvalid" style="padding-top: 10px;">Gestionar el consentimiento de datos es obligatorio</mat-error>
+                    </mat-radio-group>
+                  </div>                  
+              </div>          
+          </div>
+      </section>
+    </mat-card-content>
+  
+  
+  </mat-card>
+
+  <div class="form_footer">
+    <div class="form_buttons">
+      <div class="buttons_actions">
+        <button *ngIf="ngGuardarFinanciamiento" type="submit" [disabled]="!forma.valid" mat-raised-button
+          color="btnCeleste" (click)="submit()">
+          <mat-icon>save</mat-icon> Guardar
+        </button>
+        <button (click)="_financiamientoEdicionService.cancelar()" mat-raised-button color="btnGris">
+          <mat-icon>block</mat-icon> Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

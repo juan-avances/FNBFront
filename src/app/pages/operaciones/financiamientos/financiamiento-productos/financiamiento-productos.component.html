@@ -1,0 +1,89 @@
+<ng-container [formGroup]="forma">
+  <section class="form_material">
+    <div class="content_material">
+      <p-treeTable [value]="detalle" class="table-striped" autoLayout="true">
+        <ng-template pTemplate="header">
+          <tr class="small table_th">
+            <th>Nombre</th>
+            <th>Sku</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th *ngIf="_financiamientoEdicionService.state === ''">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+          <tr [ttRow]="rowNode">
+            <td>
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              {{ rowData.nombre }}
+            </td>
+            <td class="text-center">{{ rowData.sku }}</td>
+            <td class="text-right" *ngIf="rowNode.level != 0">
+              {{ rowData.precio | currency: 'S./ ':true:'.2-2' }}
+            </td>
+            <td class="text-center" *ngIf="rowNode.level == 0"></td>
+            <td class="text-center">{{ rowData.cantidad }}</td>
+            <td class="text-right" *ngIf="rowNode.level != 0">
+              {{ rowData.cantidad * rowData.precio | currency: 'S./ ':true:'.2-2' }}
+            </td>
+            <td class="text-right" *ngIf="rowNode.level == 0">
+              {{ rowData.precio | currency: 'S./ ':true:'.2-2' }}
+            </td>
+            <td *ngIf="_financiamientoEdicionService.state === ''">
+              <div class="btn-group w-100 d-flex justify-content-center" role="group">
+                <a
+                  *ngIf="rowNode.level != 2"
+                  style="cursor: pointer;"
+                  title="Eliminar"
+                  (click)="Eliminar(rowData, rowNode.level)"
+                >
+                  <div>
+                    <mat-icon>delete</mat-icon>
+                  </div>
+                </a>
+                <a *ngIf="rowNode.level == 0" style="cursor: pointer;" title="Despacho" (click)="Despacho(rowData)">
+                  <div>
+                    <mat-icon>local_shipping</mat-icon>
+                  </div>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td
+              style="text-align: right;background-color: #dad9dd;color: black;border: 1px solid #dad9dd;"
+              [attr.colspan]="_financiamientoEdicionService.state === '' ? 6 : 5"
+            >
+              Monto Total : S/. {{ totalMonto.toFixed(2) }}
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: right;" [attr.colspan]="_financiamientoEdicionService.state === '' ? 6 : 5">
+              Crédito Utilizado : S/. {{ obtenerTotal().toFixed(2) }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+    </div>
+  </section>
+
+  <div class="form_buttons" *ngIf="hayExceso">
+    <h1 style="padding-right: 10px;font-style:italic;">
+      <strong
+        >Detalle*:
+        <p>Cálidda sólo podrá financiar hasta S/.{{ lineaCredito }}, la diferencia debe ser pagada en tienda.</p>
+        <p>El monto superado: S/.{{ (totalMonto - lineaCredito).toFixed(2) }}</p>
+      </strong>
+    </h1>
+    <mat-form-field>
+      <mat-select style="padding-left: 10px" formControlName="tipoPago" placeholder="Seleccione Tipo de Pago en Tienda">
+        <mat-option value="1">Efectivo</mat-option>
+        <mat-option value="2">Tarjeta Débito</mat-option>
+        <mat-option value="3">Tarjeta Crédito</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</ng-container>

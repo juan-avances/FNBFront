@@ -1,0 +1,121 @@
+<div id="login">
+  <div class="bg_login">
+    <div *ngIf="!showForgetPassword" class="form_login">
+      <div class="logo">
+        <div class="svg_login"></div>
+      </div>
+      <div class="title">
+        <h2><strong>Sistema FNB</strong></h2>
+      </div>
+      <div class="form_data">
+        <form class="material-form form-validate" [formGroup]="forma">
+          <mat-form-field>
+            <mat-icon matSuffix>person</mat-icon>
+            <input
+              required
+              type="text"
+              id="usuario"
+              name="usuario"
+              matInput
+              formControlName="usuario"
+              placeholder="Usuario"
+            />
+          </mat-form-field>
+
+          <mat-form-field>
+            
+            <mat-icon style="cursor: pointer" matSuffix (click)="togglePasswordVisibility()"> {{showPassword?'visibility':'visibility_off'}}</mat-icon>
+            <input
+              required
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              (keyup)="validerBlank($event.target.value)"
+              name="password"
+              matInput
+              formControlName="password"
+              placeholder="Password"
+            />
+          </mat-form-field>
+   
+          <!-- <app-recaptcha ></app-recaptcha> -->
+
+          <a href="javascript:void(0);" (click)="olvidoContrasenia()" style="color: white; margin-bottom: 1rem; size: 8px;" >¿Olvidaste la contraseña?</a>
+          <div class="send">
+            <button type="submit" (click)="ingresar()" id="submit" mat-raised-button color="btnAzul">Ingresar</button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+
+    <div *ngIf="showForgetPassword" class="form_login">
+      <div class="logo">
+        <div class="svg_login"></div>
+      </div>
+      <div class="titleForgetPassword">
+        <h5><strong>Cambio de contraseña</strong></h5>
+      </div>
+      <div  class="form_data">
+        <div class="material-form">
+          <form class="material-form form-validate" [formGroup]="formaContrasena">
+            
+            <mat-form-field>
+              <mat-icon style="cursor: pointer" matSuffix (click)="toggleNewPasswordVisibility()"> {{showNewPassword?'visibility':'visibility_off'}}</mat-icon>
+              <input
+                required
+                [type]="showNewPassword ? 'text' : 'password'"
+                id="newPassword"
+                name="email"
+                maxlength="12"
+                (keydown.space)="$event.preventDefault();"
+                (input)="ValidarPassword($event.target.value)"
+                matInput
+                placeholder="Ingrese nueva contraseña"
+                formControlName="newPassword"
+              />
+              <!-- (keyup)="validerBlank($event.target.value)" -->
+              <mat-error *ngIf="f.newPassword.errors?.minlength" >Minimo {{f.newPassword.errors?.minlength.requiredLength}} caracteres</mat-error>
+              
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-icon style="cursor: pointer" matSuffix (click)="toggleRepeatPasswordVisibility()"> {{showRepeatPassword?'visibility':'visibility_off'}}</mat-icon>
+              <input
+                required
+                [type]="showRepeatPassword ? 'text' : 'password'"
+                id="repeatPassword"
+                name="email"
+                maxlength="12"
+                (keydown.space)="$event.preventDefault();"
+                matInput
+                placeholder="repita nueva contraseña"
+                formControlName="repeatPassword"
+              />
+              <mat-error *ngIf="f.repeatPassword.errors?.minlength" >Minimo {{f.repeatPassword.errors?.minlength.requiredLength}} caracteres</mat-error>
+            </mat-form-field>
+            <div style="align-self: center;  margin-top: 1rem; padding-bottom: 1rem;">
+              <mat-hint style="color: rgb(255 255 255); font-weight: 500; font-size: 12px;" align="center" *ngIf="nivelSeguridad<=33"><b>Bajo</b></mat-hint>
+              <mat-hint style="color: rgb(255 255 255); font-weight: 500; font-size: 12px;" align="center" *ngIf="nivelSeguridad==66 || nivelSeguridad==67"><b>Medio</b></mat-hint>
+              <mat-hint style="color: rgb(255 255 255); font-weight: 500; font-size: 12px;" align="center" *ngIf="nivelSeguridad==100"><b>Alto</b></mat-hint>
+              <mat-progress-bar class="example-margin" mode="determinate" [value]="nivelSeguridad" [color]="nivelColor" style="width: 150px; height: 6px; border-radius: 15px;"></mat-progress-bar>
+              <!-- <mat-chip-list aria-label="Fish selection">
+                <mat-chip *ngIf="nivelSeguridad==33">seguridad: bajo</mat-chip>
+                <mat-chip *ngIf="nivelSeguridad==66 || nivelSeguridad==67">medio</mat-chip>
+                <mat-chip *ngIf="nivelSeguridad==100">Alto</mat-chip>
+              </mat-chip-list> -->
+            </div>
+          <div class="send" style="margin-top: 1rem">
+            <button id="EnviarPassword" class="mb-2 mr-1" mat-raised-button color="btnAzul" (click)="guardarContrasena()">Guardar</button>
+
+            <button id="EnviarCancelar" class="mb-2" mat-raised-button color="btnGris" (click)="cancelarRestauracion();">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

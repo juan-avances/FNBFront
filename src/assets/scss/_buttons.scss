@@ -1,0 +1,80 @@
+@mixin btn_general() {
+  border-radius: 5px !important;
+  padding: 4px 30px !important;
+  line-height: 30px !important;
+}
+@mixin btn_general_light() {
+  border-radius: 5px !important;
+  padding: 0px 15px !important;
+  min-width: 0px !important;
+  line-height: 30px !important;
+  margin: 8px 5px !important;
+}
+@mixin button($boton, $color) {
+  .mat-#{$boton} {
+    color: $blanco;
+    background: $color;
+    padding: 10px 20px;
+    border: 1px solid $color;
+    border-radius: 5px;
+    margin: 20px 5px;
+    @include btn_general();
+  }
+  .mat-#{$boton}:hover,
+  .mat-#{$boton}:active,
+  .mat-#{$boton}:focus {
+    background: transparentize($color, 0.2);
+    outline: none;
+  }
+}
+@mixin button_light($boton, $color) {
+  .mat-#{$boton} {
+    color: $blanco;
+    background: $color;
+    padding: 10px 20px;
+    border: 1px solid $color;
+    border-radius: 5px;
+    margin: 20px 5px;
+    @include btn_general_light();
+  }
+  .mat-#{$boton}:hover,
+  .mat-#{$boton}:active,
+  .mat-#{$boton}:focus {
+    background: transparentize($color, 0.2);
+    outline: none;
+  }
+}
+button:focus {
+  outline: 0 !important;
+}
+
+.align_actions {
+  display: flex;
+  justify-content: space-between;
+  div {
+    color: $gris;
+    text-align: center;
+    flex: 1;
+  }
+}
+
+.not-active {
+  //background-color:#F8CBE0;
+  pointer-events: none;
+  cursor: none;
+  text-decoration: none;
+}
+@mixin button_icon($boton, $color) {
+  .mat-#{$boton} {
+    color: $azul;
+  }
+}
+
+@include button('btnAzul', $azul);
+@include button('btnAzulPersonalizado', $azul_personalizado);
+@include button('btnCeleste', $celeste);
+@include button('btnGris', $gris);
+
+// buttos light
+@include button_light('btnCeleste_l', $celeste);
+@include button_icon('btnIconBlue', $azul);

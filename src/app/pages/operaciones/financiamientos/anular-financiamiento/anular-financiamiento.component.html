@@ -1,0 +1,12 @@
+<div class="cambio_clave">
+	<h2>Anular Financiamiento</h2>
+	<form [formGroup]="forma" class="material-form form-validate" >
+		<mat-form-field>
+			<textarea required matInput formControlName="motivo" placeholder="Ingrese Motivo de Anulación"></textarea>
+		</mat-form-field>
+		<div class="dialog_buttons">
+			<button type="submit" (click)="enviar()" id="submit" mat-raised-button color="btnCeleste">Anular</button>
+			<button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Salir</button>				
+		</div>
+	</form>
+</div>

@@ -1,0 +1,41 @@
+<div class="cambio_clave">
+  <h2 mat-dialog-title>
+    Anular Financiamiento: <strong>{{ data.financiamiento.nroPedido }}</strong>
+  </h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="forma" class="material-form form-validate">
+      <div class="modalidadEntregaDialog">
+        <mat-card class="calidda-card">
+          <mat-form-field>
+            <mat-select
+              (selectionChange)="changeMotivo($event)"
+              placeholder="Motivo"
+              formControlName="idMotivo"
+              matInput
+            >
+              <mat-option *ngFor="let item of data.motivos" [value]="item.value">
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="esOtro">
+            <input matInput formControlName="descripcion" placeholder="Descripción" />
+          </mat-form-field>
+        </mat-card>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+    <button
+      mat-button
+      [disabled]="!forma.valid"
+      (click)="enviar()"
+      mat-raised-button
+      color="btnCeleste"
+      cdkFocusInitial
+    >
+      Grabar
+    </button>
+  </mat-dialog-actions>
+</div>

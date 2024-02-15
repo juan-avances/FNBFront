@@ -1,0 +1,125 @@
+// .mat-card.card_header{padding: 0;}
+.system_name{
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 24px;
+}
+.master_header{
+    width: 100%;
+}
+.main_header{
+    padding: 15px;
+    // background: $azul;
+    color: $blanco;
+    display: flex;
+    align-items: center;
+    .toggle_menu{
+        cursor: pointer;
+    }
+    .header_content{
+        padding-left: 15px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        .user_config{
+            display: flex;
+            div{
+                padding: 0 5px;
+                &._user_name{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-end;
+                    h4{
+                        font-style: italic;
+                        font-size: 12px;
+                        margin-top: 5px;
+                    }
+                }
+                &.sep_vertical{
+                    border-right: 2px solid $blanco;
+                    height: 100%;
+                }
+                &._user_logout, &._user_icon{
+                    width: 35px;
+                    height: 35px;
+                    display: flex;
+                    margin-left: 5px;
+                    align-items: center;
+                    justify-content: center;
+                    background: $blanco;
+                    color: $azul;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }            
+        }
+    }
+}
+.alert_drop_down{
+    position: absolute;
+    width: 250px;
+    top: 77px;
+    right: 24px;
+    z-index: 999;
+    .arrow-up {
+        position: absolute;
+        top: -10px;
+        right: 17px;
+        width: 0;
+        height: 0;
+        padding: 0!important;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #00a3e0;
+        z-index: 99;
+    }
+    .mat-card{
+        border-radius: 5px;
+        overflow: hidden;
+        .mat-card-header{
+            display: flex;
+            align-items: center;
+            width: calc(100% + 48px);
+            margin: -24px -24px 15px -24px;
+            background: url('assets/img/240_60.jpg');
+            height: 60px;
+            align-items: center;
+
+            h2{
+                color: $blanco;
+            }
+        }
+        div{
+            a{
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                text-decoration: none;
+                color: inherit;
+                cursor: pointer;
+            }            
+            .mat-icon{
+                color: $celeste;
+                margin-right: 5px;
+            }
+        }
+    }
+}
+.sidebar_menu{
+    svg{
+        margin-right: 10px;
+        &.svg-inline--fa{
+            path{
+                fill: $celeste;            
+            }
+        }
+    }
+    .ui-menuitem-text{
+        font-family: Roboto,"Helvetica Neue",sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+    }
+}

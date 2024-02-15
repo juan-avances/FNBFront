@@ -1,0 +1,52 @@
+<div class="cambio_clave">
+  <h2>Cambiar de Sede</h2>
+    <div class="example-container">
+      <mat-form-field>
+        <mat-select
+          matInput
+          [disabled]="true"
+          id="sedeUsuarioOld"
+          name="sedeUsuarioOld"
+          [value]="setIdSedeOld"
+          placeholder="Sede actual"
+        >
+          <mat-option *ngFor="let sede of sedes" value="{{ sede.value }}">
+            {{ sede.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field>
+        <mat-select
+          matInput
+          [disabled]="false"
+          id="sedeUsuarioNew"
+          name="sedeUsuarioNew"
+          [(value)]="idSedeNew"
+          
+          placeholder="Sede a Camibar"
+        >
+          <mat-option *ngFor="let sede of sedes" value="{{ sede.value }}">
+            {{ sede.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      
+      <div class="dialog_buttons">
+        <button
+          type="submit"
+          (click)="save()"
+          id="submit"
+          
+          mat-raised-button
+          color="btnCeleste"
+        >
+          Guardar
+        </button>
+        <button id="cancel" (click)="cancel()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+
+</div>

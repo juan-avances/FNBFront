@@ -1,0 +1,123 @@
+<div class="cambio_clave">
+  <h2>Agregar Producto Manualmente</h2>
+  
+  <form [formGroup]="forma" class="material-form form-validate">
+    <div class="example-container">
+      
+
+  
+
+      <section class="form_material">
+
+        <mat-form-field>
+          <input
+            type="text"
+            placeholder="Producto Genérico"
+            matInput
+            formControlName="nombreProducto"
+            maxlength="100"
+            required
+          />
+
+        
+       
+        </mat-form-field>
+  
+        <mat-form-field>
+          <input
+            min="1"
+            type="text"
+            placeholder="SKU del Producto"
+            aria-label="Number"
+            matInput
+            formControlName="sku"
+            maxlength="100"
+            required
+          />
+         
+        
+        </mat-form-field>
+
+        
+        <mat-form-field>
+          <mat-select placeholder="Nombre del Proveedor" formControlName="aliadoComercial"
+          required>
+            <mat-option *ngFor="let proveedores of proveedores" [value]="proveedores.value">
+              {{ proveedores.label }}
+            </mat-option>
+          </mat-select>
+         
+        </mat-form-field>
+
+        
+  
+
+        <mat-form-field>
+          <mat-select placeholder="Categoría" formControlName="idCategoria"
+          required>
+            <mat-option *ngFor="let item of CategoryFnbList" [value]="item.id">
+              {{ item.name }}
+            </mat-option>
+          </mat-select>
+         
+        </mat-form-field>
+
+        <!--
+        <mat-form-field>
+          <mat-select
+            matInput
+            readonly 
+            id="idHorario"
+            name="idHorario"
+            placeholder="Horario"
+            formControlName="idHorario">
+            <mat-option [value]=4>Todo el dia (00:01:00 - 23:59:00 )</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
+        
+
+        <mat-form-field class="er-full-width" >
+          <input   placeholder="Fecha de Vencimiento" readonly formControlName="fechaVencimiento" name="fechaVencimiento" matInput />
+        </mat-form-field>-->
+
+
+
+      <div class="form_inputs top_align">
+        
+      
+            <mat-form-field>
+                <input type="number" matInput placeholder="Precio"  maxlength="250" formControlName="precio"/>
+            </mat-form-field>
+
+            <i class="fas fa-file-excel" style="color:white;">ESPACIOESPACIO</i> 
+       
+       
+          <mat-form-field>
+              <input type="number" matInput placeholder="Cantidad"  maxlength="250" formControlName="cantidad" />
+            
+          </mat-form-field>
+    
+       
+    </div>
+    </section>
+      
+    <div class="dialog_buttons">
+      <!--[disabled]="!forma.valid"-->
+        <button
+          type="submit"
+          [disabled]="!forma.valid"
+          (click)="save()"
+          id="submit"
+          mat-raised-button
+          color="btnCeleste"
+          id="submit"
+        >
+          Grabar
+        </button>
+        <button id="cancel" (click)="btnCerrar()" mat-raised-button color="btnGris">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>

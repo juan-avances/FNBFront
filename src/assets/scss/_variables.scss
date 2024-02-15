@@ -1,0 +1,169 @@
+// colores Intertek
+$azul: #1e9fda;
+$celeste: rgba(124, 206, 243, 1);
+$azul_bold: rgba(40, 0, 145, 1);
+$gris: rgba(97, 99, 101, 1);
+$negro: rgba(0,0,0, 1);
+$blanco: rgba(255,255,255, 1);
+
+
+$azul_personalizado: rgba(14,94,142, 1);
+$bg_sidebar: rgba(249, 251, 251, 1);
+$bg_body: rgba(239, 239, 239, 1);
+$bg_footer: rgba(96, 96, 96, 1);
+
+$amarillo: rgba(254, 209, 0, 1);
+$naranja: rgba(255, 88, 0, 1);
+$verde: rgba(190, 214, 0, 1);
+$gris_claro: rgba(166, 166, 166, 1);
+
+
+// fix sweet alert button focus
+.swal2-popup .swal2-styled {
+    padding: 6px 30px!important;
+}
+.swal2-popup .swal2-styled:focus{
+    box-shadow: unset!important;
+}
+.swal2-popup .swal2-styled.swal2-confirm{
+    background: $azul!important;
+}
+.swal2-popup .swal2-actions:not(.swal2-loading) .swal2-styled:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))!important;
+}
+
+// generate spaces margins
+$class-slug: ".space";
+$class-mti: ".mti";
+$stop-loop:  30;
+@for $i from 0 through $stop-loop {
+  #{$class-slug}_#{$i} {
+    padding: #{$i}px;
+  }
+}
+@for $i from 0 through $stop-loop {
+  #{$class-mti}_#{$i} {
+    margin-top: -#{$i}px;
+  }
+}
+
+html{
+    background: $gris_claro;
+}
+
+.ui-paginator-bottom{
+    margin-top: 15px;
+}
+.ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-pages, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last, .ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-prev, .ui-paginator .ui-paginator-current{
+    font-size: 12px;
+    float: left;
+}
+
+// #spinner{
+//     background-color: #ccc!important;
+//     // opacity: 1!important;
+// }
+
+// tablas de primeng
+.ui-table .ui-table-tbody > tr {
+    background-color: #f4f4f4;
+}
+.table-striped tbody tr:nth-of-type(odd){
+      background-color: $blanco;
+}
+.ui-table.ui-table-hoverable-rows .ui-table-tbody > tr:not(.ui-state-highlight):not(.ui-contextmenu-selected):hover{
+  background: #f4f4f4;
+  color: $negro;
+}
+.ui-widget-header{
+  border: none;
+  background: transparent;
+}
+
+// master
+.sidenav-container {
+  height: 100%;
+  .mat-toolbar{
+    &.mat-azulCalidda{
+        position: sticky;
+        top: 0;
+        z-index: 99;
+        background: $azul;
+        color: $blanco;
+
+    }
+  }
+}
+
+.sidenav {
+  width: 250px;
+  .mat-nav-list{
+    padding-top: 0;
+  }
+}
+
+.mat-toolbar.mat-azulCalidda {
+  position: sticky;
+  top: 0;
+}
+
+.mat-toolbar, .mat-toolbar h1, .mat-toolbar h2, .mat-toolbar h3, .mat-toolbar h4, .mat-toolbar h5, .mat-toolbar h6{
+  font: inherit;
+}
+
+// fotawesome
+@mixin icon_color($class, $color, $size) {
+  .fa_icon{
+    &.#{$class}{
+      font-size: $size + px;
+      color: $color;
+    }
+  }
+}
+
+@include icon_color('fa_azul', $azul, 20);
+@include icon_color('fa_gris', $gris, 16);
+@include icon_color('fa_gris_b', $gris, 20);
+@include icon_color('fa_celeste', $celeste, 20);
+
+.text_inherit{
+  font-size: 16px;
+  color: $negro;
+  margin-left: 10px;
+}
+
+.horizontal{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.actions{
+  text-align: center;
+}
+strong{
+  font-weight: bold;
+}
+.fnb_italic{
+  font-style: italic;
+}
+
+table{
+    td{
+        vertical-align:middle;
+    }
+}
+.mat-drawer{
+  &.mat-sidenav{
+    .mat-drawer-inner-container{
+      overflow: unset!important;
+    }      
+    &.mat-drawer-side{
+      border-right: none;
+    }
+  }
+}
+
+.bolder {
+  font-weight: 600;
+}

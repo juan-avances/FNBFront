@@ -1,0 +1,22 @@
+<div class="responsiveG">
+  <h2 mat-dialog-title>
+    Vista previa
+  </h2>
+
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="formGroup" class="material-form form-validate">
+      <div class="mat-card-header-text">
+        <mat-card-title class="mat-card-title">
+          <div class="file_input mb-3px">
+            <ng-container>
+              <img alt="Imagen" [src]="formGroup.get('base64Logo').value"   *ngIf="formGroup.get('base64Logo').value" />
+            </ng-container>
+          </div>
+        </mat-card-title>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog_buttons">
+    <button (click)="modalReference.close()" class="dialog_buttons" mat-raised-button color="btnGris">Salir</button>
+  </mat-dialog-actions>
+</div>

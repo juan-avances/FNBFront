@@ -1,0 +1,140 @@
+*{
+	box-sizing: border-box;
+}
+#login{
+    background:url('assets/img/fondo.jpg');
+    background-size: cover;
+    height: 100vh;
+    .bg_login{
+        height: 100vh;
+        padding: 40px 0;
+    }
+    .form_login{
+        background: $celeste;
+        background: transparentize($celeste, 0.2);
+        width: 400px;
+        height: 100%;
+        float: right;
+        margin-right: 40px;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+        justify-content: center;
+        .logo{
+            text-align: center;
+            width: 150px;
+            margin: 0 auto;
+            .svg_login{
+                &::before{
+                    content: url('assets/img/logo_calidda.svg');                    
+                }
+            }
+        }
+        .title{
+            text-align: center;
+            font-size: 30px;
+            text-transform: uppercase;
+            color: $azul_personalizado;
+            padding: 20px 0;
+        }
+        .titleForgetPassword{
+            text-align: center;
+            font-size: 23px;
+            text-transform: uppercase;
+            color: $azul_personalizado;
+            padding: 20px 0;
+        }
+    }
+    .form_data{
+        text-align: center;
+        .material-form{
+            width: 250px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            .mat-input-element{
+                color: $blanco;
+            }
+            .mat-form-field-appearance-legacy .mat-form-field-underline{
+                border-bottom: 1px solid $blanco;
+            }
+            .mat-form-field-appearance-legacy .mat-form-field-label{
+                color: $blanco;
+            }
+            .mat-icon{
+                color: $blanco;
+            }
+            .mat-checkbox{
+                margin-top: 30px;
+                margin-bottom: 30px;
+                .mat-checkbox-label{
+                    color: $blanco;
+                }
+                .mat-checkbox-inner-container{
+                    .mat-checkbox-frame{
+                        border-color: $blanco;
+                    }
+                }
+                .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+                    background-color: $azul;
+                }
+            }
+            .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+                background-color: $azul_personalizado !important;
+            }
+            .mat-ripple-element {
+                background: transparentize($azul_personalizado, .8) !important;
+            }
+        }
+        
+    }
+    
+    .form_data input::placeholder{
+        color: #ccc;
+    }    
+    .lost_pass{
+        margin-top: 15px;	
+    }
+    .lost_pass a{
+        color: #ffffff;
+        font-style: italic;
+    }
+}
+// captcha login
+#Sequre{
+    display: flex;
+    flex-direction: column;
+    .canvas_gen{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: $blanco;
+        padding: 0 10px;
+        height: 60px;
+        #canvasOculto{
+            width: 110px;
+        }
+        .mat-icon{
+            color: $azul_personalizado!important;
+            font-weight: bold;
+            cursor: pointer;
+        }   
+    }
+    .mat-form-field{
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 500px) {
+	.form_login{
+		width: 100%;
+		float: none;
+	}
+}

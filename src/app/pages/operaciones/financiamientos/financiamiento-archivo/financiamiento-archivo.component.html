@@ -1,0 +1,131 @@
+<div class="responsiveG">
+  <h2 mat-dialog-title>
+    Adjuntar Archivo <br />N° Pedido:<strong>{{ data.nroPedido }}</strong>
+  </h2>
+
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="forma" class="material-form form-validate">
+      <div class="modalidadEntregaDialog">
+        <!--
+
+
+        <mat-card class="calidda-card">
+          <mat-form-field>
+            <mat-select matInput id="estado" name="estado" placeholder="Tipo de Documento"
+              formControlName="idTipoArchivo" [disabled]="!modificar">
+              <mat-option [value]=1>Sustento de Venta</mat-option>
+              <mat-option [value]=2>Sustento de Entrega</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+         
+
+          <div class="file_input" class="buttonSize2" (click)="fileInput.click()" *ngIf="modificar">
+            <button id="update" class="buttonsize" mat-raised-button color="btnCeleste_l">
+              <i class="fas fa-upload"></i> <span class="ocultar">Seleccionar Archivo</span>
+            </button>
+            <input class="file_input" #fileInput type="file" style="display: none" formControlName="imagePath"
+              accept={{allowedExtensions}} (change)="loadArchivo($event)" multiple="true" />
+          </div>
+
+
+          <div class="file_input">
+
+            <p id="archivo" class="fnb_italic" *ngFor="let file of filesv2; let i=index"> {{file.nombre}} <a>
+                <mat-icon (click)="deleteAll(i)">delete</mat-icon>
+              </a> </p>
+
+          </div>
+        </mat-card>
+        -->
+        <div class="upload-file-content">
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">
+
+              <div class="round-state-color " [ngClass]="{'bg-red': isSustento === 0,'bg-green' : isSustento > 0}">
+              </div>
+              <h3 class="mat-card-mb-1 mat-card-mt-0  inline-block" mat-raised-button matTooltip="Contrato, Copia de DNI o CE, Boleta, Foto de Venta, Cronograma audio"
+                aria-label="Button that displays a tooltip that has custom delays through a default config">Sustento de
+                Venta</h3>
+
+              <div class="file_input" class="buttonSize2 float-right btn-upload-file-right" (click)="fileInput.click()"
+                *ngIf="modificar">
+                <button id="update" class="buttonsize" mat-raised-button color="btnCeleste_l">
+                  <i class="fas fa-upload"></i> <span class="ocultar"></span>
+                </button>
+                <input class="file_input" #fileInput type="file" style="display: none" formControlName="imagePath"
+                  accept={{allowedExtensions}} (change)="loadArchivo($event,1)" multiple="true" />
+              </div>
+
+
+              <div class="file_input mb-3px" *ngFor="let objFile of filesv3">
+                <ng-container *ngIf="objFile.idTipoArchivo==1">
+                  <p id="archivo" class="fnb_italic bg-file-upload mr-12px"
+                    *ngFor="let file of objFile.file; let i=index">
+                    {{file.NombreArchivo}}
+                    <a class="vertical-align-midle">
+                      <mat-icon class="mat-icon-mt-1px color-white" (click)="deleteAll(i,1)">delete</mat-icon>
+                    </a>
+                  </p>
+                </ng-container>
+              </div>
+
+              <hr class="mat-card-mb-0 mat-card-mt-0" />
+            </mat-card-title>
+            <file-list [dataEntity]="dataEntity" [idTipoArchivo]="1" *ngIf="dataEntity.data.length>0"
+              (paginationLoad)="loadLazy($event)"></file-list>
+
+          </div>
+          <br />
+          <div class="mat-card-header-text">
+            <mat-card-title class="mat-card-title">
+
+              <div class="round-state-color " [ngClass]="{'bg-red': isEntrega === 0,'bg-green' : isEntrega > 0}"></div>
+              <h3 class="mat-card-mb-1 mat-card-mt-0 inline-block" mat-raised-button matTooltip="Guía de remisión, Acta de conformidad, Carta poder tercero, Foto de entrega"
+              aria-label="Button that displays a tooltip that has custom delays through a default config">Sustento de Entrega</h3>
+              <div class="file_input" class="buttonSize2 float-right btn-upload-file-right" (click)="fileInput.click()"
+                *ngIf="modificar">
+                <button id="update" class="buttonsize" mat-raised-button color="btnCeleste_l">
+                  <i class="fas fa-upload"></i> <span class="ocultar"></span>
+                </button>
+                <input class="file_input" #fileInput type="file" style="display: none" formControlName="imagePath"
+                  accept={{allowedExtensions}} (change)="loadArchivo($event,2)" multiple="true" />
+              </div>
+
+              <div class="file_input mb-3px" *ngFor="let objFile of filesv3">
+
+                <ng-container *ngIf="objFile.idTipoArchivo==2">
+                  <p id="archivo" class="fnb_italic bg-file-upload mr-12px"
+                    *ngFor="let file of objFile.file; let i=index">
+                    {{file.NombreArchivo}}
+                    <a class="vertical-align-midle">
+                      <mat-icon class="mat-icon-mt-1px color-white" (click)="deleteAll(i,2)">delete</mat-icon>
+                    </a>
+                  </p>
+                </ng-container>
+
+
+              </div>
+              <hr class="mat-card-mb-0 mat-card-mt-0" />
+            </mat-card-title>
+            <file-list [dataEntity]="dataEntity" [idTipoArchivo]="2" *ngIf="dataEntity.data.length>0"
+              (paginationLoad)="loadLazy($event)"></file-list>
+          </div>
+        </div>
+
+
+
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog_buttons">
+    <button (click)="modalReference.close()" class="dialog_buttons" mat-raised-button color="btnGris">Cancelar</button>
+    <button (click)="send()" class="dialog_buttons" mat-raised-button color="btnCeleste"
+      [disabled]="!forma.valid">Grabar</button>
+  </mat-dialog-actions>
+</div>
+<!--
+<div class="paggind-grid-g">
+  <app-paging-grid #dt [dataEntity]="dataEntity" (paginationLoad)="loadLazy($event)"></app-paging-grid>
+</div>
+-->

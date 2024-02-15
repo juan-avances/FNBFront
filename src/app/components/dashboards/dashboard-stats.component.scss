@@ -1,0 +1,60 @@
+$azul: rgba(30, 159, 218, 1);
+.card-dash {
+    width: 220px;
+    //float: left;
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 15px;
+}
+
+.content-dash {}
+
+.row-dash {
+    width: 100%;
+    margin-top: 25px;
+    padding-left: 15px;
+}
+
+.texto-dash {
+    width: 60%;
+    float: left
+}
+
+.p-dash {
+    font-size: 13px;
+    padding-top: 3px
+}
+
+.porcentaje-dash {
+    width: 25%;
+    float: right;
+    margin-right: 25px
+}
+
+.round-dash-stats {
+    -moz-border-radius: 70px;
+    -webkit-border-radius: 70px;
+    border-radius: 70px;
+    width: 60px;
+    height: 20px;
+    background-color: $azul;
+    padding-top: 5px;
+    padding-left: 10px;
+    font-size: 10px;
+    color: white
+}
+
+.icon-dash {
+    float: left;
+    margin-right: 5px
+}
+
+.content-dash-value {
+    padding-top: 45px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+}
+
+.stats-dash {
+    font-size: 25px
+}

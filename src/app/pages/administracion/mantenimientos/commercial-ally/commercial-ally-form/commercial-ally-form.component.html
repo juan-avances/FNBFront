@@ -1,0 +1,186 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Aliado Comercial</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div class="form_inputs middle_align" style="margin-top: 25px;">
+          <div>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="RUC"
+                formControlName="documentNumber"
+                (keypress)="onChange($event)"
+                (paste)="onPaste($event)"
+                maxlength="11"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('documentNumber').hasError('minlength')">
+                  Debe contener 11 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('documentNumber').valid">
+                  Caracteres permitidos solo números.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Razón social"
+                letterNumberSign
+                formControlName="legalName"
+                maxlength="100"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('legalName').hasError('minlength')">
+                  Debe contener entre 3 a 100 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('legalName').valid">
+                  Caracteres no permitidos.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs middle_align">
+          <div>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Nombre Comercial"
+                letterNumberSign
+                formControlName="businessName"
+                maxlength="100"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('businessName').hasError('minlength')">
+                  Debe contener entre 3 a 100 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('businessName').valid">
+                  Caracteres no permitidos.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                type="text"
+                matInput
+                placeholder="Asesor"
+                formControlName="assessor"
+                maxlength="10"
+                (keypress)="onChange($event)"
+                (paste)="onPaste($event)"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('assessor').hasError('minlength')">
+                  Debe contener entre 1 a 10 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('assessor').valid">
+                  Caracteres permitidos solo números.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs middle_align">
+          <div>
+            <mat-form-field>
+              <input
+                #responsableVenta
+                type="text"
+                matInput
+                placeholder="Responsable Venta"
+                formControlName="responsableVenta"
+                maxlength="10"
+                (keypress)="onChange($event)"
+                (keyup)="deshabilitarResponsableVenta(responsableVenta.value)"
+                (paste)="onPaste($event)"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('responsableVenta').hasError('minlength')">
+                  Debe contener entre 1 a 10 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('responsableVenta').valid">
+                  Caracteres permitidos solo números.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                #proveedor
+                type="text"
+                matInput
+                placeholder="Proveedor"
+                formControlName="proveedor"
+                (keyup)="deshabilitarProveedor(proveedor.value)"
+                maxlength="10"
+                (keypress)="onChange($event)"
+                (paste)="onPaste($event)"
+              />
+              <mat-error>
+                <p *ngIf="formGroup.get('proveedor').hasError('minlength')">
+                  Debe contener entre 1 a 10 caracteres.
+                </p>
+                <p *ngIf="formGroup.get('proveedor').valid">
+                  Caracteres permitidos solo números.
+                </p>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form_inputs middle_align">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Logo</mat-label>
+              <ngx-mat-file-input
+                formControlName="imagePath"
+                accept="image/*"
+                (change)="previewImage($event)"
+                placeholder="Escoge un logo."
+              ></ngx-mat-file-input>
+              <mat-icon matSuffix>folder</mat-icon>
+            </mat-form-field>
+            <mat-error *ngIf="formGroup.get('base64Logo').hasError('required')">
+              <p>Debes escoger una imagen.</p>
+            </mat-error>
+          </div>
+        </div>
+
+        <div style="padding-left: 30px;"></div>
+        <div class=" form_inputs middle_align">
+          <div>
+            <img [src]="formGroup.get('base64Logo').value" height="200" *ngIf="formGroup.get('base64Logo').value" />
+          </div>
+        </div>
+        <div class="form_buttons">
+          <div class="buttons_actions">
+            <button
+              type="submit"
+              (click)="save()"
+              id="submit"
+              [disabled]="!formGroup.valid"
+              mat-raised-button
+              color="btnCeleste"
+            >
+              <mat-icon>save</mat-icon> Guardar
+            </button>
+            <button (click)="cancel()" mat-raised-button color="btnGris"><mat-icon>block</mat-icon> Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>

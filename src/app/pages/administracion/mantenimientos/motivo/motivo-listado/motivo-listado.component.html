@@ -1,0 +1,77 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Motivos</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                (change)="dt.filter($event.srcElement.value, 'codigo', 'contains')"
+                matInput
+                codigoMotivo
+                placeholder="Código"
+                maxlength="15"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+                [value]="estado"
+                (selectionChange)="dt.filter($event.value, 'estado', 'equals')"
+                matInput
+                id="estado"
+                name="estado"
+                placeholder="Estado"
+                formControlName="estado">
+                <mat-option>TODOS</mat-option>
+                <mat-option [value]="1">ACTIVOS</mat-option>
+                <mat-option [value]="0">INACTIVOS</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                (change)="dt.filter($event.srcElement.value, 'nombre', 'contains')"
+                matInput
+                placeholder="Nombre"
+                letterNumberSign
+                maxlength="100"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <div class="other_buttons">
+      <div class="buttons_">
+        <div class="right">
+          <a *ngIf="this._global.validarPermiso('AGRMOT')" [routerLink]="['/motivo']">
+            <button mat-raised-button color="btnCeleste">
+              <em class="material-icons-outlined">add_circle_outline</em> Nuevo
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="content_material">
+      <app-paging-grid
+        #dt
+        [dataEntity]="dataEntity"
+        (paginationLoad)="loadLazy($event)"
+        (updateState)="updateState($event)"
+      ></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>

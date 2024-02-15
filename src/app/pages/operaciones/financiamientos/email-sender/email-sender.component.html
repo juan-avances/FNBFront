@@ -1,0 +1,31 @@
+<div class="cambio_clave">
+  <h2>Envío de correo</h2>
+  <div style="width: 100%; margin-bottom: 80px;">
+    <mat-icon
+      style="float: right;
+    cursor: pointer;
+    color: #1e9fda;
+    font-size: 40px;"
+      class="mat-icon"
+      (click)="addEmailControl(null)"
+      >add_circle</mat-icon
+    >
+  </div>
+  <form [formGroup]="formGroup" class="material-form form-validate">
+    <ng-container formArrayName="emailList" *ngFor="let emailControl of emailListControl.controls; let i = index">
+      <mat-form-field [formGroupName]="i">
+        <input type="email" required matInput formControlName="email" placeholder="Ingrese el correo" />
+        <button mat-button matSuffix mat-stroked-button aria-label="delete" (click)="deleteEmailControl(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-form-field>
+    </ng-container>
+
+    <div class="dialog_buttons">
+      <button type="submit" (click)="send()" mat-raised-button color="btnCeleste">
+        Enviar
+      </button>
+      <button (click)="modalReference.close()" mat-raised-button color="btnGris">Cancelar</button>
+    </div>
+  </form>
+</div>

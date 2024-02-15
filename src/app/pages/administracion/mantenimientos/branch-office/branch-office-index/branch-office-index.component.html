@@ -1,0 +1,93 @@
+<mat-card class="calidda-card">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>Sede</h2>
+      <mat-menu #menu="matMenu" xPosition="before"> </mat-menu>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <form [formGroup]="formGroup">
+      <section class="form_material">
+        <div class="form_inputs">
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                type="text"
+                placeholder="Aliado Comercial"
+                formControlName="commercialAllyBusinessName"
+                [matAutocomplete]="auto"
+                (keyup.enter)="search('commercialAllyId')"
+              />
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search('commercialAllyId')">
+                <mat-option
+                  *ngFor="let commercialAlly of filteredCommercialAllyList | async"
+                  [value]="commercialAlly.businessName"
+                >
+                  {{ commercialAlly.businessName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                formControlName="address"
+                matInput
+                placeholder="Dirección"
+                (change)="search('address')"
+                onlyAddressStreet
+              />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input
+                [type]="'text'"
+                formControlName="name"
+                letterNumberSign
+                matInput
+                placeholder="Nombre"
+                (change)="search('name')"
+              />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select
+                [value]="estado"
+                (selectionChange)="dt.filter($event.value, 'estado', 'equals')"
+                matInput
+                id="estado"
+                name="estado"
+                placeholder="Estado"
+                formControlName="estado">
+                <mat-option>TODOS</mat-option>
+                <mat-option [value]="1">ACTIVOS</mat-option>
+                <mat-option [value]="0">INACTIVOS</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
+    </form>
+  </mat-card-content>
+</mat-card>
+<mat-card class="calidda-card">
+  <mat-card-content class="card-content">
+    <div class="other_buttons">
+      <div class="buttons_">
+        <div class="right">
+          <a [routerLink]="['/branch-office-form']"
+            ><button mat-raised-button color="btnCeleste"><mat-icon>add</mat-icon> Nuevo</button></a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="content_material">
+      <app-paging-grid
+        #dt
+        [dataEntity]="dataEntity"
+        (paginationLoad)="loadLazy($event)"
+        (updateState)="updateState($event)"
+      ></app-paging-grid>
+    </div>
+  </mat-card-content>
+</mat-card>
