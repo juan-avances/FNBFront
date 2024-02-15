@@ -15,7 +15,7 @@ export class Auth2Guard implements CanActivate {
 
     if (this.globalService.isAdministradorAliado() || this.globalService.isAdministradorWeb()) return true;
     else {
-      swal.fire('Información', 'Usted no tiene los permisos necesarios para acceder a este recurso.', 'error');
+      swal('Información', 'Usted no tiene los permisos necesarios para acceder a este recurso.', 'error');
       this.router.navigate(['/dashboard']);
       return false;
     }

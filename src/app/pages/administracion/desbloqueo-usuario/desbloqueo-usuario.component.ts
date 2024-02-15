@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { State } from 'src/app/@core/models/option.model';
 import { UsuarioService } from 'src/app/services/backend/usuario.service';
 import { UsuarioEdicionService } from 'src/app/services/feature/Administracion/Usuario/usuario-edicion.service';
 import swal from 'sweetalert2';

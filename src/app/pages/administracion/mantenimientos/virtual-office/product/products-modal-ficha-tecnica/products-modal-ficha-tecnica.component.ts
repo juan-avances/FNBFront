@@ -40,10 +40,16 @@ export class ProductsModalFichaTecnicaComponent implements OnInit {
               var newBlob = new Blob([response], { type: "application/pdf" });
               // IE doesn't allow using a blob object directly as link href
               // instead it is necessary to use msSaveOrOpenBlob
-              if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(newBlob);
-                return;
-              }
+              
+
+// REVISAR DESPUES DE MIGRAR
+
+              // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+              //   window.navigator.msSaveOrOpenBlob(newBlob);
+              //   return;
+              // }
+
+
               // For other browsers: 
               // Create a link pointing to the ObjectURL containing the blob.
               const data = window.URL.createObjectURL(newBlob);

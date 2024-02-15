@@ -29,7 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this._router.navigate(['/login']);
           } else {
             console.log("error: ", error)
-            swal.({
+            swal({
               title: 'Ocurrió un error durante el proceso, intente nuevamente.',
               type: 'error',
               toast: true,

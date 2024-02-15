@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
     
   }
 
-  obtenerAcceso(url): Promise<boolean>
+  obtenerAcceso(url: any): Promise<boolean>
   {
     return new Promise<boolean>((resolve, reject)=>{
       this._seguridadServicio.AccesoMenu(url).subscribe(response => {

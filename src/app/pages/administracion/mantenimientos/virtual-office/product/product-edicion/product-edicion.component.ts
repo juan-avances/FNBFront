@@ -548,7 +548,7 @@ export class ProductEdicionComponent implements OnInit {
     return this.ProductRegisterForm.controls['commercialAlly'].errors && this.ProductRegisterForm.controls['commercialAlly'].touched
   }
   addFeautureArray() {
-    if (this.FeautureForm.value.description.trim() == '')    
+    if (this.FeautureForm['description'].trim() == '')    
       return  swal('El campo de característica está vacío', '', 'error');
 
     if (!this.FeatureArray.find(e => e.description == this.FeautureForm.value.description)) {

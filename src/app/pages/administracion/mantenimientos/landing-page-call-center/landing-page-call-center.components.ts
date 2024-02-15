@@ -177,12 +177,6 @@ export class LandingPageCallCenterComponent implements OnInit {
     this.formGroup.enable()
     this.auxCategoria = true
 
-
-
-
-
-
-
   }
 
   Limpiar() {
